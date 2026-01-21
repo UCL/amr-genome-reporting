@@ -1,0 +1,23 @@
+#+TITLE: AMR Genome Reporting CLI
+#+AUTHOR: David Guzman
+
+* Building instructions
+
+** Requirements
+
+- GCC
+- GNU Make
+
+*** Vendored dependencies
+
+- Unity (v2.6.1)
+- cJSON (v1.7.19)
+- PDFio (v1.6.1)
+
+** Build
+
+Clone the repository
+
+#+BEGIN_SRC bash
+  git clone --recurse-submodules git@github.com:UCL/amr-genome-reporting
+#+END_SRC
