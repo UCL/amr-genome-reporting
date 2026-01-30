@@ -21,3 +21,13 @@ Clone the repository
 #+BEGIN_SRC bash
   git clone --recurse-submodules git@github.com:UCL/amr-genome-reporting
 #+END_SRC
+
+* Copyright
+
+AMR Genome Reporting CLI
+Copyright (C) 2026, University College London.
+
+Code does not imply UKHSA endorsement.
+
+Code is provided "AS IS" and is licensed under the GNU General Public
+License. A copy of this license is included in the file [[LICENSE.org]].
