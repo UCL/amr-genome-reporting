@@ -45,6 +45,7 @@ INCLUDES := \
 SRC_DIRS := \
 	src/core \
 	src/io \
+	src/json \
 	src/pdf \
 	src
 
