@@ -23,6 +23,19 @@
 
 #define INITIAL_PAGE_SIZE 4096;
 
+/**
+ * @brief Read contents of a text file stream.
+ *
+ * Reads data from a given FILE stream and returns a dynamically
+ * allocated, \0 terminated string.
+ *
+ * Caller must be responsible to call free() on the returned string.
+ *
+ * @param fp Open FILE pointer positioned at the start of the input.
+ * @param out_len Output parameter receiving the length in bytes
+ * (excluding \0)
+ * @return Pointer to the heap-allocated buffer. NULL on error.
+ */
 char *read_text_file(FILE *fp, size_t *out_len);
 
 #endif /* READ_TEXT_H */
