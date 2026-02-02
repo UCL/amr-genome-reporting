@@ -92,7 +92,7 @@ $(BIN_DIR)/$(PROJECT): $(APP_OBJ) $(LIB_OBJ)
 # ====================
 # Tests
 # ====================
-test: $(UNITY_OBJ)
+test: $(APP_OBJ) $(LIB_OBJ) $(UNITY_OBJ)
 	$(MAKE) -C tests
 
 # ====================

@@ -22,6 +22,19 @@ Clone the repository
   git clone --recurse-submodules git@github.com:UCL/amr-genome-reporting
 #+END_SRC
 
+Compile the code
+
+#+BEGIN_SRC bash
+  make
+#+END_SRC
+
+Build and run Unity tests
+
+#+BEGIN_SRC bash
+  make test
+  make -C tests run
+#+END_SRC
+
 * Copyright
 
 AMR Genome Reporting CLI

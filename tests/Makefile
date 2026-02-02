@@ -37,6 +37,7 @@ CJSON_DIR := $(ROOT_DIR)/lib/cjson
 INCLUDES := \
 	-I$(ROOT_DIR)/include \
 	-I$(ROOT_DIR)/src \
+	-I$(ROOT_DIR)/src/io \
 	-I$(UNITY_DIR)/src \
 	-I$(CJSON_DIR)
 
@@ -44,7 +45,8 @@ INCLUDES := \
 # Test executables
 # ====================
 TESTS := \
-	test_unity_sanity
+	test_unity_sanity \
+	test_read_text
 
 .PHONY: all clean run
 
@@ -59,6 +61,7 @@ $(TEST_DIR):
 test_%: test_%.c | $(TEST_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	$< \
+	$(OBJ_DIR)/src/io/read_text.o \
 	$(OBJ_DIR)/lib/cjson/cJSON.o \
 	$(OBJ_DIR)/lib/unity/src/unity.o \
 	-o $(TEST_DIR)/$@
@@ -68,7 +71,7 @@ test_%: test_%.c | $(TEST_DIR)
 # ====================
 run: all
 	for t in $(TESTS); do \
-		echo "Running $$t; \
+		echo "Running $$t"; \
 		$(TEST_DIR)/$$t || exit 1; \
 	done
 
