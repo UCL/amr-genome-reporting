@@ -20,7 +20,21 @@
 
 #include <cJSON.h>
 
-typedef int (*section_validator_t)(const cJSON *section);
+/**
+ * @typedef section_validator_t
+ *
+ * @brief Function pointer type for validation of a json section.
+ *
+ * A section validator inspects a given json object or value and
+ * verifies that it conforms to the expected structure.
+ *
+ * The validator must not modify the json tree.
+ *
+ * @param section Pointer to the json value representing the section
+ * to be validated. It must be non-NULL.
+ * @return json_status_t indicating the result of the validation.
+ */
+typedef json_status_t (*section_validator_t)(const cJSON *section);
 
 /**
  * @struct validation_section_s
@@ -67,8 +81,33 @@ typedef enum {
   ERR_INVALID_VALUE,
 } json_status_t;
 
-int validate_json_structure(const cJSON *json);
+/**
+ * @brief Validate the complete structure of a parsed json document.
+ *
+ * Performs top-level validation of a json document, by calling section
+ * validators for required fields.
+ *
+ * The json tree must have been parsed by cJSON successfully before
+ * calling this function.
+ *
+ * The function does not take ownership of the json object and does not
+ * modify it.
+ *
+ * @param json Pointer to the root cJSON object.
+ * @return json_status_t indicating the result of the validation.
+ */
+json_status_t validate_json_structure(const cJSON *json);
 
+/**
+ * @brief Validate a json section using a given validator function.
+ *
+ * Applies a section-specific validator to a json value. It is intended to
+ * be used as a building block for schema-like validation.
+ *
+ * @param json Pointer to the json section to validate.
+ * @param validator Function pointer to the validator.
+ * @return json_status_t indicating the result of the validation.
+ */
 json_status_t validate_section(const cJSON *json, section_validator_t validator);
 
 #endif /* PARSE_JSON_H */
