@@ -21,6 +21,27 @@
 #include <cJSON.h>
 
 /**
+ * @enum json_status_t
+ *
+ * @brief Status codes to be returned by json validation functions.
+ *
+ * All validators must return one of these status codes.
+ */
+typedef enum {
+  /** Validation succesful */
+  OK = 0,
+
+  /** Required field is missing */
+  ERR_MISSING_FIELD,
+
+  /** Field has an incorrect type */
+  ERR_TYPE_MISMATCH,
+
+  /** Field contains an invalid value */
+  ERR_INVALID_VALUE,
+} json_status_t;
+
+/**
  * @typedef section_validator_t
  *
  * @brief Function pointer type for validation of a json section.
@@ -59,27 +80,6 @@ typedef struct validation_section_s {
   /** Validation function specific for the section */
   section_validator_t validator;
 } validation_section_t;
-
-/**
- * @enum json_status_t
- *
- * @brief Status codes to be returned by json validation functions.
- *
- * All validators must return one of these status codes.
- */
-typedef enum {
-  /** Validation succesful */
-  OK = 0,
-
-  /** Required field is missing */
-  ERR_MISSING_FIELD,
-
-  /** Field has an incorrect type */
-  ERR_TYPE_MISMATCH,
-
-  /** Field contains an invalid value */
-  ERR_INVALID_VALUE,
-} json_status_t;
 
 /**
  * @brief Validate the complete structure of a parsed json document.

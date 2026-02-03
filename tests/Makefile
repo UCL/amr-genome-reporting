@@ -38,6 +38,7 @@ INCLUDES := \
 	-I$(ROOT_DIR)/include \
 	-I$(ROOT_DIR)/src \
 	-I$(ROOT_DIR)/src/io \
+	-I$(ROOT_DIR)/src/json \
 	-I$(UNITY_DIR)/src \
 	-I$(CJSON_DIR)
 
@@ -46,7 +47,8 @@ INCLUDES := \
 # ====================
 TESTS := \
 	test_unity_sanity \
-	test_read_text
+	test_read_text \
+	test_parse_json
 
 .PHONY: all clean run
 

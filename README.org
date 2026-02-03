@@ -7,6 +7,7 @@
 
 - GCC
 - GNU Make
+- Doxygen (for generating documentation)
 
 *** Vendored dependencies
 
@@ -33,6 +34,12 @@ Build and run Unity tests
 #+BEGIN_SRC bash
   make test
   make -C tests run
+#+END_SRC
+
+Build documentation
+
+#+BEGIN_SRC bash
+  make docs
 #+END_SRC
 
 * Copyright

@@ -17,7 +17,96 @@
 */
 #include "parse_json.h"
 
-int validate_json_structure(cJSON *json)
+#include <stdio.h>
+#include <string.h>
+
+#define ARRAY_LEN(a) (sizeof(a) / sizeof((a)[0]))
+
+json_status_t validate_required_string(const cJSON *obj)
+{
+    if (!obj)
+        return ERR_MISSING_FIELD;
+    if (!cJSON_IsString(obj))
+        return ERR_TYPE_MISMATCH;
+    if (obj->valuestring == NULL || strcmp(obj->valuestring,"") == 0)
+        return ERR_INVALID_VALUE;
+
+    return OK;
+}
+
+/**
+ * @brief Validator for the metadata section of the report json document.
+ *
+ * Expected json structure:
+ * @code
+ * {
+ *   "author": "Forename Surname",
+ *   "label": "Report label",
+ *   "version": "v1.0",
+ *   "timestamp": "2026-02-03 11:19:00"
+ * }
+ * @endcode
+ *
+ * Validation rules:
+ * - The input must be a json object
+ * - All required fields must be present
+ * - All required fileds must be a non-empty string as a value.
+ *
+ * @param json Pointer to a cJSON object representing the metadata section.
+ * @return OK on success.
+ * @return ERR_TYPE_MISMATCH if json is not an object or a field has the wrong
+ * type.
+ * @return ERR_MISSING_FIELD if a required field is missing.
+ * @return ERR_INVALID_VALUE if a field value is empty or invalid.
+ *
+ * @note The function does not take ownership of @p json. The caller is
+ * responsible for managing the life of the cJSON tree.
+ */
+json_status_t validate_metadata(const cJSON *json)
+{
+    const char *req_names[] = {
+        "author",
+        "label",
+        "version",
+        "timestamp",
+    };
+
+    const cJSON *field = NULL;
+    json_status_t rc = OK;
+    const char *name = NULL;
+
+    if (json == NULL)
+        return ERR_INVALID_VALUE;
+
+    if (!cJSON_IsObject(json))
+        return ERR_TYPE_MISMATCH;
+
+    for (size_t i = 0; i < ARRAY_LEN(req_names); i++)
+    {
+        name = req_names[i];
+        field = cJSON_GetObjectItemCaseSensitive(json, name);
+        rc = validate_required_string(field);
+        if (rc != OK) {
+            fprintf(stderr, "Error validating metadata '%s': %d\n", name, rc);
+            return rc;
+        }
+    }
+
+    return rc;
+}
+
+json_status_t validate_header(const cJSON *json)
+{
+    json_status_t status = ERR_INVALID_VALUE;
+    return status;
+}
+
+static const validation_section_t schema[] = {
+    { "metadata", validate_metadata },
+    { "header", validate_header },
+};
+
+json_status_t validate_json_structure(const cJSON *json)
 {
   return 0;
 }
