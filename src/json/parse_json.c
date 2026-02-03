@@ -34,6 +34,32 @@ json_status_t validate_required_string(const cJSON *obj)
     return OK;
 }
 
+json_status_t validate_required(const cJSON *json, const char **req_names)
+{
+    const cJSON *field = NULL;
+    json_status_t rc = OK;
+    const char *name = NULL;
+
+    if (json == NULL)
+        return ERR_INVALID_VALUE;
+
+    if (!cJSON_IsObject(json))
+        return ERR_TYPE_MISMATCH;
+
+    for (size_t i = 0; i < ARRAY_LEN(req_names); i++)
+    {
+        name = req_names[i];
+        field = cJSON_GetObjectItemCaseSensitive(json, name);
+        rc = validate_required_string(field);
+        if (rc != OK) {
+            fprintf(stderr, "Error validating metadata '%s': %d\n", name, rc);
+            return rc;
+        }
+    }
+
+    return rc;
+}
+
 /**
  * @brief Validator for the metadata section of the report json document.
  *
@@ -71,39 +97,32 @@ json_status_t validate_metadata(const cJSON *json)
         "timestamp",
     };
 
-    const cJSON *field = NULL;
-    json_status_t rc = OK;
-    const char *name = NULL;
-
-    if (json == NULL)
-        return ERR_INVALID_VALUE;
-
-    if (!cJSON_IsObject(json))
-        return ERR_TYPE_MISMATCH;
-
-    for (size_t i = 0; i < ARRAY_LEN(req_names); i++)
-    {
-        name = req_names[i];
-        field = cJSON_GetObjectItemCaseSensitive(json, name);
-        rc = validate_required_string(field);
-        if (rc != OK) {
-            fprintf(stderr, "Error validating metadata '%s': %d\n", name, rc);
-            return rc;
-        }
-    }
-
-    return rc;
+    json_status_t status = OK;
+    status = validate_required(json, req_names);
+    return status;
 }
 
-json_status_t validate_header(const cJSON *json)
+json_status_t validate_clinical_header(const cJSON *json)
 {
-    json_status_t status = ERR_INVALID_VALUE;
+    const char *req_names[] = {
+        "genome_identifier",
+        "isolate_lab_identifier",
+        "date_isolation",
+        "location",
+        "source_type",
+        "host_tissue",
+        "accession_number",
+        "genome_report_date",
+        "genome_quality"
+    };
+    json_status_t status = OK;
+    status = validate_required(json, req_names);
     return status;
 }
 
 static const validation_section_t schema[] = {
     { "metadata", validate_metadata },
-    { "header", validate_header },
+    { "header", validate_clinical_header },
 };
 
 json_status_t validate_json_structure(const cJSON *json)

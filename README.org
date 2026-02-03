@@ -1,6 +1,9 @@
 #+TITLE: AMR Genome Reporting CLI
 #+AUTHOR: David Guzman
 
+Customised bacterial genome reporting: optimising communication of genomic data
+to microbiological, public health and genomics specialists.
+
 * Building instructions
 
 ** Requirements
