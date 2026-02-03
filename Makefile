@@ -54,6 +54,13 @@ OBJ_DIR   := $(BUILD_DIR)/obj
 BIN_DIR   := $(BUILD_DIR)/bin
 
 # ====================
+# Documentation
+# ====================
+DOXYGEN ?= doxygen
+DOXYFILE := Doxyfile
+DOCS_DIR := $(BUILD_DIR)/docs
+
+# ====================
 # Sources
 # ====================
 APP_SRC := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
@@ -72,7 +79,7 @@ UNITY_OBJ := $(OBJ_DIR)/lib/unity/src/unity.o
 # ====================
 # Targets
 # ====================
-.PHONY: all clean test dirs
+.PHONY: all clean test docs dirs
 
 all: dirs $(BIN_DIR)/$(PROJECT)
 
@@ -95,6 +102,13 @@ $(BIN_DIR)/$(PROJECT): $(APP_OBJ) $(LIB_OBJ)
 # ====================
 test: $(APP_OBJ) $(LIB_OBJ) $(UNITY_OBJ)
 	$(MAKE) -C tests
+
+# ====================
+# Documentation
+# ====================
+docs:
+	$(DOXYGEN) $(DOXYFILE)
+	@echo "Documentation generated in $(DOCS_DIR)/html/index.html"
 
 # ====================
 # Clean

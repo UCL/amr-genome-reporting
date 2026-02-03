@@ -1,0 +1,47 @@
+# ====================
+# AMR Genome Reporting CLI
+# Copyright (C) 2026  University College London.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ====================
+
+# Project
+PROJECT_NAME = "AMR Genome Reporting CLI"
+PROJECT_BRIEF = "CLI tool for generation of AMR genome reports"
+OUTPUT_DIRECTORY = build/docs
+
+# Input
+INPUT = include src
+RECURSIVE = YES
+FILE_PATTERNS = *.c *.h
+
+# Output formats
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
+
+# Warnings
+WARN_IF_UNDOCUMENTED = YES
+WARN_NO_PARAMDOC = YES
+
+# Extraction
+EXTRACT_ALL = NO
+EXTRACT_STATIC = NO
+EXTRACT_PRIVATE = NO
+
+# Formatting
+OPTIMIZE_OUTPUT_FOR_C = YES
+MARKDOWN_SUPPORT = YES
+
+# Misc
+QUIET = YES
