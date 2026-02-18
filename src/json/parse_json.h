@@ -82,6 +82,18 @@ typedef struct validation_section_s {
 } validation_section_t;
 
 /**
+ * @brief Validate a json section using a given validator function.
+ *
+ * Applies a section-specific validator to a json value. It is intended to
+ * be used as a building block for schema-like validation.
+ *
+ * @param json Pointer to the json section to validate.
+ * @param validator Function pointer to the validator.
+ * @return json_status_t indicating the result of the validation.
+ */
+json_status_t validate_section(const cJSON *json, section_validator_t validator);
+
+/**
  * @brief Validate the complete structure of a parsed json document.
  *
  * Performs top-level validation of a json document, by calling section
@@ -97,17 +109,5 @@ typedef struct validation_section_s {
  * @return json_status_t indicating the result of the validation.
  */
 json_status_t validate_json_structure(const cJSON *json);
-
-/**
- * @brief Validate a json section using a given validator function.
- *
- * Applies a section-specific validator to a json value. It is intended to
- * be used as a building block for schema-like validation.
- *
- * @param json Pointer to the json section to validate.
- * @param validator Function pointer to the validator.
- * @return json_status_t indicating the result of the validation.
- */
-json_status_t validate_section(const cJSON *json, section_validator_t validator);
 
 #endif /* PARSE_JSON_H */

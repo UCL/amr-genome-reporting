@@ -15,7 +15,40 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include <stddef.h>
+#include <stdio.h>
+#include <cJSON.h>
+
+#include "io/read_text.h"
+#include "json/parse_json.h"
+
 int main(int argc, char **argv)
 {
-    /* ... */
+  if (argc < 2)
+    fprintf(stderr, "Usage: amr_gen_reporting [JSON file]\n");
+
+  FILE *fp;
+  char *filename = argv[1];
+  fp = fopen(filename, "r");
+
+  if (fp == NULL)
+    fprintf(stderr, "File %s could not be opened", filename);
+
+  size_t *out_len = 0;
+
+  const char *json_text = read_text_file(fp, out_len);
+
+  const cJSON *json = cJSON_Parse(json_text);
+  if (json == NULL) {
+    const char *errp = cJSON_GetErrorPtr();
+    if (errp != NULL)
+      fprintf(stderr, "Error before %s\n", errp);
+    return -1; // TODO replace with proper error code enum value
+  }
+
+  json_status_t status = validate_json_structure(json);
+  if (status != OK)
+    return -2; // TODO replace with proper error code enum value
+
+  return 0;
 }
