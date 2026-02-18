@@ -17,6 +17,7 @@
 */
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <cJSON.h>
 
 #include "io/read_text.h"
@@ -24,31 +25,46 @@
 
 int main(int argc, char **argv)
 {
-  if (argc < 2)
-    fprintf(stderr, "Usage: amr_gen_reporting [JSON file]\n");
+    if (argc < 2) {
+      fprintf(stderr, "Usage: %s [JSON file]\n", argv[0]);
+      return 1;
+    }
 
-  FILE *fp;
-  char *filename = argv[1];
-  fp = fopen(filename, "r");
+  const char *filename = argv[1];
 
-  if (fp == NULL)
-    fprintf(stderr, "File %s could not be opened", filename);
+  FILE *fp = fopen(filename, "r");
+  if (!fp) {
+      // fprintf(stderr, "File %s could not be opened", filename);
+      perror(filename);
+    return 2;
+  }
 
-  size_t *out_len = 0;
+  size_t out_len = 0;
+  char *json_text = read_text_file(fp, &out_len);
+  fclose(fp);
 
-  const char *json_text = read_text_file(fp, out_len);
+  if (!json_text) {
+      fprintf(stderr, "Failed to read input file\n");
+      return 3;
+  }
 
-  const cJSON *json = cJSON_Parse(json_text);
-  if (json == NULL) {
+  cJSON *json = cJSON_Parse(json_text);
+  if (!json) {
     const char *errp = cJSON_GetErrorPtr();
-    if (errp != NULL)
+    if (errp)
       fprintf(stderr, "Error before %s\n", errp);
-    return -1; // TODO replace with proper error code enum value
+    free(json_text);
+    return 4; // TODO replace with proper error code enum value
   }
 
   json_status_t status = validate_json_structure(json);
+  cJSON_Delete(json);
+  free(json_text);
+
   if (status != OK)
-    return -2; // TODO replace with proper error code enum value
+    return 5; // TODO replace with proper error code enum value
+
+  printf("JSON file '%s' is valid\n", filename);
 
   return 0;
 }

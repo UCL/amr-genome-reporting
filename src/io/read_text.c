@@ -48,6 +48,7 @@ char *read_text_file(FILE *fp, size_t *out_len)
     // Add one (+1) to reserve space for final '\0'
     if (length + (size_t)n + 1 > bufcap) {
       size_t cap = bufcap ? bufcap * 2 : INITIAL_PAGE_SIZE;
+
       while (cap < length + (size_t)n + 1)
         cap *= 2;
 

@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stddef.h>
 
-#define INITIAL_PAGE_SIZE 4096;
+#define INITIAL_PAGE_SIZE 4096
 
 /**
  * @brief Read contents of a text file stream.

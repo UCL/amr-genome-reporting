@@ -23,13 +23,29 @@ CC	?= cc
 AR	?= ar
 RM	?= rm -f
 
-CSTD	:= -std=c18
-WARN	:= -Wall -Wextra -Wpedantic
-OPT	?= -O2
-DEBUG	?= -g
+# ====================
+# Build mode
+# ====================
+BUILD	?= release # release | debug
 
-CFLAGS	:= $(CSTD) $(WARN) $(OPT) $(DEBUG)
-LDFLAGS	:=
+BASE_CFLAGS := -std=c18 -Wall -Wextra -Wpedantic
+BASE_LDFLAGS :=
+
+RELEASE_CFLAGS := -O2
+RELEASE_LDFLAGS :=
+
+DEBUG_CFLAGS := -O0 -g3 -fno-omit-frame-pointer
+DEBUG_LDFLAGS :=
+
+SANITISERS := -fsanitize=address
+
+ifeq ($(BUILD),debug)
+	CFLAGS := $(BASE_CFLAGS) $(DEBUG_CFLAGS) $(SANITISERS)
+	LDFLAGS := $(BASE_LDFLAGS) $(DEBUG_LDFLAGS) $(SANITISERS)
+else
+	CFLAGS := $(BASE_CFLAGS) $(RELEASE_CFLAGS)
+	LDFLAGS := $(BASE_LDFLAGS) $(RELEASE_LDFLAGS)
+endif
 
 # ====================
 # Project
@@ -79,7 +95,7 @@ UNITY_OBJ := $(OBJ_DIR)/lib/unity/src/unity.o
 # ====================
 # Targets
 # ====================
-.PHONY: all clean test docs dirs
+.PHONY: all clean test docs dirs debug
 
 all: dirs $(BIN_DIR)/$(PROJECT)
 
@@ -109,6 +125,12 @@ test: $(APP_OBJ) $(LIB_OBJ) $(UNITY_OBJ)
 docs:
 	$(DOXYGEN) $(DOXYFILE)
 	@echo "Documentation generated in $(DOCS_DIR)/html/index.html"
+
+# ====================
+# Debug
+# ====================
+debug:
+	$(MAKE) BUILD=debug
 
 # ====================
 # Clean

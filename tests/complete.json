@@ -1,0 +1,19 @@
+{
+    "metadata": {
+        "author": "Forename Surname",
+        "label": "Report label",
+        "version": "v1.0",
+        "timestamp": "2026-02-03 11:19:00"
+    },
+    "header": {
+        "genome_identifier": "Case 1",
+        "isolate_lab_identifier": "K1",
+        "date_collection": "16/5/23",
+        "location": "Fajara, The Gambia",
+        "source_type": "Human",
+        "host_tissue": "Blood",
+        "accession_number": "ERR2693301",
+        "genome_report_date": "20/5/23",
+        "genome_quality": "Acceptable"
+    }
+}

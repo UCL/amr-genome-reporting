@@ -127,10 +127,15 @@ static const validation_section_t schema[] = {
 
 json_status_t validate_json_structure(const cJSON *json)
 {
-  for (size_t i = 0; ARRAY_LEN(schema); i++) {
+  for (size_t i = 0; i < ARRAY_LEN(schema); i++) {
     const validation_section_t *spec = &schema[i];
     // We validate each section separately
     const cJSON *section = cJSON_GetObjectItemCaseSensitive(json, spec->name);
+
+    if (!section) {
+        fprintf(stderr, "Missing section %s\n", spec->name);
+        return ERR_MISSING_FIELD;
+    }
 
     json_status_t rc = spec->validator(section);
     if (rc != OK) {
