@@ -107,7 +107,7 @@ json_status_t validate_clinical_header(const cJSON *json)
     const char *req_names[] = {
         "genome_identifier",
         "isolate_lab_identifier",
-        "date_isolation",
+        "date_collection",
         "location",
         "source_type",
         "host_tissue",
@@ -127,5 +127,16 @@ static const validation_section_t schema[] = {
 
 json_status_t validate_json_structure(const cJSON *json)
 {
-  return 0;
+  for (size_t i = 0; ARRAY_LEN(schema); i++) {
+    const validation_section_t *spec = &schema[i];
+    // We validate each section separately
+    const cJSON *section = cJSON_GetObjectItemCaseSensitive(json, spec->name);
+
+    json_status_t rc = spec->validator(section);
+    if (rc != OK) {
+      fprintf(stderr, "Error validating section '%s': %d\n", spec->name, rc);
+      return rc;
+    }
+  }
+  return OK;
 }
