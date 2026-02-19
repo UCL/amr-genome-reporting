@@ -8,7 +8,7 @@ to microbiological, public health and genomics specialists.
 
 ** Requirements
 
-- GCC
+- C compiler: GCC or Apple clang (Mac OSX)
 - GNU Make
 - Doxygen (for generating documentation)
 
@@ -43,6 +43,20 @@ Build documentation
 
 #+BEGIN_SRC bash
   make docs
+#+END_SRC
+
+Build in debug mode
+
+#+BEGIN_SRC bash
+  make debug
+#+END_SRC
+
+* Run
+
+After compilation run the application against the provided test file.
+
+#+BEGIN_SRC bash
+  ./build/bin/amr_gen_reporting tests/complete.json
 #+END_SRC
 
 * Copyright
