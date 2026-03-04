@@ -29,7 +29,7 @@ RM	?= rm -f
 BUILD	?= release # release | debug
 
 BASE_CFLAGS := -std=c18 -Wall -Wextra -Wpedantic
-BASE_LDFLAGS :=
+BASE_LDFLAGS := -lz
 
 RELEASE_CFLAGS := -O2
 RELEASE_LDFLAGS :=
@@ -83,7 +83,9 @@ APP_SRC := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 APP_OBJ := $(patsubst %.c,$(OBJ_DIR)/%.o,$(APP_SRC))
 
 LIB_SRC := \
-	lib/cjson/cJSON.c
+	lib/cjson/cJSON.c \
+	$(wildcard lib/pdfio/pdfio-*.c) \
+	lib/pdfio/ttf.c
 
 LIB_OBJ := \
 	$(patsubst %.c,$(OBJ_DIR)/%.o,$(LIB_SRC))

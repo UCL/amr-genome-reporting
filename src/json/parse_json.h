@@ -19,6 +19,7 @@
 #define PARSE_JSON_H
 
 #include <cJSON.h>
+#include "../main.h"
 
 /**
  * @enum json_status_t
@@ -109,5 +110,7 @@ json_status_t validate_section(const cJSON *json, section_validator_t validator)
  * @return json_status_t indicating the result of the validation.
  */
 json_status_t validate_json_structure(const cJSON *json);
+
+report_data_t extract_data(const cJSON *json);
 
 #endif /* PARSE_JSON_H */

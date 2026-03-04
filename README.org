@@ -10,6 +10,7 @@ to microbiological, public health and genomics specialists.
 
 - C compiler: GCC (minimum version 9+) or Apple clang (minimum version 9+ on MacOS 10+)
 - GNU Make
+- ZLIB 1.1 or higher
 - Doxygen (for generating documentation)
 
 *** Vendored dependencies

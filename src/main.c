@@ -19,9 +19,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cJSON.h>
+#include <pdfio.h>
 
 #include "io/read_text.h"
 #include "json/parse_json.h"
+#include "pdf/create_pdf.h"
 
 int main(int argc, char **argv)
 {
@@ -58,6 +60,10 @@ int main(int argc, char **argv)
   }
 
   json_status_t status = validate_json_structure(json);
+
+  // TODO
+  // report_data_t data = extract_data(json);
+
   cJSON_Delete(json);
   free(json_text);
 
@@ -66,5 +72,13 @@ int main(int argc, char **argv)
 
   printf("JSON file '%s' is valid\n", filename);
 
-  return 0;
+
+  report_data_t data = {
+      "Title"
+  };
+
+  pdfio_file_t *pdf = create_pdf_file("filename.pdf", data);
+
+  // 1 = true, 0 = false
+  return (int) pdfioFileClose(pdf);
 }
