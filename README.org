@@ -39,7 +39,7 @@ Build and run Unity tests
   make -C tests run
 #+END_SRC
 
-Build documentation
+Build documentation. Doxygen is required to run this target.
 
 #+BEGIN_SRC bash
   make docs
