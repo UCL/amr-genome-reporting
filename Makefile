@@ -116,7 +116,7 @@ $(BIN_DIR)/$(PROJECT): $(APP_OBJ) $(LIB_OBJ)
 # ====================
 # Tests
 # ====================
-test: $(APP_OBJ) $(LIB_OBJ) $(UNITY_OBJ)
+test: all $(UNITY_OBJ)
 	$(MAKE) -C tests
 
 # ====================
