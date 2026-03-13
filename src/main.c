@@ -72,9 +72,16 @@ int main(int argc, char **argv)
 
   printf("JSON file '%s' is valid\n", filename);
 
+  report_clinical_header_t clinical_headers[] = {
+      {"Genome identifier", "Case 1"},
+      {"Isolate/laboratory identifier", "K1"},
+      {"Date of isolation", "16/05/2023"}
+  };
 
   report_data_t data = {
-      "Title"
+      .title = "Title",
+      .clinical_header = clinical_headers,
+      .clinical_header_size = sizeof(clinical_headers) / sizeof(clinical_headers[0])
   };
 
   pdfio_file_t *pdf = create_pdf_file("filename.pdf", data);

@@ -18,8 +18,17 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stddef.h>
+
+typedef struct report_clinical_header_s {
+    char *label;
+    char *value;
+} report_clinical_header_t;
+
 typedef struct report_data_s {
     char *title;
+    report_clinical_header_t *clinical_header;
+    size_t clinical_header_size;
 } report_data_t;
 
 #endif /* MAIN_H */

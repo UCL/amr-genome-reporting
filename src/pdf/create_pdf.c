@@ -22,6 +22,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 
+#define PAGE_WIDTH 595.28
+#define PAGE_HEIGHT 841.89
 #define MARGIN 36.0
 #define HEADER_HEIGHT 50.0
 
@@ -50,14 +52,11 @@ bool pdfio_error_cb(pdfio_file_t *pdf, const char *message, void *data)
     return false;
 }
 
-bool draw_header(pdfio_stream_t *stream)
+bool draw_header_banner(pdfio_stream_t *stream, double *line_position)
 {
-    const double page_width = 595.28;
-    const double page_height = 841.89;
-
     double rect_x = MARGIN;
-    double rect_y = page_height - MARGIN - HEADER_HEIGHT;
-    double rect_w = page_width - 2 * MARGIN;
+    double rect_y = PAGE_HEIGHT - MARGIN - HEADER_HEIGHT;
+    double rect_w = PAGE_WIDTH - 2 * MARGIN;
     double rect_h = HEADER_HEIGHT;
 
     // Colours
@@ -82,6 +81,44 @@ bool draw_header(pdfio_stream_t *stream)
 
     pdfioContentTextShow(stream, /*unicode*/false, "CLINICAL GENOME REPORT");
     pdfioContentTextEnd(stream);
+
+    *line_position = rect_y;
+    return true;
+}
+
+bool draw_header_content(pdfio_stream_t *stream, report_clinical_header_t *header, size_t header_size, double *line_position)
+{
+    char *label;
+    char *value;
+    char content[256];
+    float line_pos = *line_position - 18.0;
+    
+    for (size_t i = 0; i < header_size; i++)
+    {
+        label = header[i].label;
+        value = header[i].value;
+        snprintf(content, sizeof(content), "%s: %s", label, value);
+
+        pdfioContentTextBegin(stream);
+        pdfioContentSetTextFont(stream, "F1", 10.0);
+        // Test if index is even/odd
+        if ((i & 1) == 0) // first column
+        {
+            line_pos = line_pos - 8.0 * i;
+            pdfioContentTextMoveTo(stream, MARGIN + 12.0, line_pos);
+        } else // second column
+        {
+            pdfioContentTextMoveTo(stream, PAGE_WIDTH / 2.0 + 12.0, line_pos);
+        }
+        pdfioContentTextShow(stream, false, content);
+        pdfioContentTextEnd(stream);
+    }
+
+    *line_position = line_pos - 18.0;
+
+    (void)label;
+    (void)value;
+    (void)content;
 
     return true;
 }
@@ -110,7 +147,14 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t data)
     // Create page with its content stream
     pdfio_stream_t *page = pdfioFileCreatePage(pdf, dict);
 
-    draw_header(page);
+    double line_position = MARGIN;
+
+    draw_header_banner(page, &line_position);
+    draw_header_content(
+        page,
+        data.clinical_header,
+        data.clinical_header_size,
+        &line_position);
     
     pdfioStreamClose(page);
     
