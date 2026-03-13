@@ -5,15 +5,42 @@
         "version": "v1.0",
         "timestamp": "2026-02-03 11:19:00"
     },
-    "header": {
-        "genome_identifier": "Case 1",
-        "isolate_lab_identifier": "K1",
-        "date_collection": "16/5/23",
-        "location": "Fajara, The Gambia",
-        "source_type": "Human",
-        "host_tissue": "Blood",
-        "accession_number": "ERR2693301",
-        "genome_report_date": "20/5/23",
-        "genome_quality": "Acceptable"
-    }
+    "header": [
+        {
+            "label": "Genome identifier",
+            "value": "Case 1"
+        },
+        {
+            "label": "Isolate/laboratory identifier",
+            "value": "K1"
+        },
+        {
+            "label": "Date of isolation",
+            "value": "16/05/2023"
+        },
+        {
+            "label": "Location",
+            "value": "Fajara, The Gambia"
+        },
+        {
+            "label": "Source type",
+            "value": "Human"
+        },
+        {
+            "label": "Host tissue sampled",
+            "value": "Blood"
+        },
+        {
+            "label": "Accession number",
+            "value": "ERR2693301"
+        },
+        {
+            "label": "Genome report date",
+            "value": "20/05/23"
+        },
+        {
+            "label": "Genome quality",
+            "value": "Acceptable"
+        }
+    ]
 }

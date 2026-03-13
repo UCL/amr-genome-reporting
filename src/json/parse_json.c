@@ -34,7 +34,7 @@ json_status_t validate_required_string(const cJSON *obj)
     return OK;
 }
 
-json_status_t validate_required(const cJSON *json, const char **req_names)
+json_status_t validate_required_obj(const cJSON *json, const char **req_names)
 {
     const cJSON *field = NULL;
     json_status_t rc = OK;
@@ -52,11 +52,34 @@ json_status_t validate_required(const cJSON *json, const char **req_names)
         field = cJSON_GetObjectItemCaseSensitive(json, name);
         rc = validate_required_string(field);
         if (rc != OK) {
-            fprintf(stderr, "Error validating metadata '%s': %d\n", name, rc);
+            fprintf(stderr, "Error validating required string '%s': %d\n", name, rc);
             return rc;
         }
     }
 
+    return rc;
+}
+
+json_status_t validate_required_objarr(const cJSON *json, const char **req_names)
+{
+    if (!json)
+        return ERR_INVALID_VALUE;
+
+    if (!cJSON_IsArray(json))
+        return ERR_TYPE_MISMATCH;
+
+    json_status_t rc = OK;
+    cJSON *iterator = NULL;
+    
+    cJSON_ArrayForEach(iterator, json)
+    {
+        rc = validate_required_obj(iterator, req_names);
+        if (rc != OK)
+            cJSON_Delete(iterator);
+            return rc;
+    }
+
+    cJSON_Delete(iterator);
     return rc;
 }
 
@@ -76,7 +99,7 @@ json_status_t validate_required(const cJSON *json, const char **req_names)
  * Validation rules:
  * - The input must be a json object
  * - All required fields must be present
- * - All required fileds must be a non-empty string as a value.
+ * - All required fields must be a non-empty string as a value
  *
  * @param json Pointer to a cJSON object representing the metadata section.
  * @return OK on success.
@@ -98,25 +121,47 @@ json_status_t validate_metadata(const cJSON *json)
     };
 
     json_status_t status = OK;
-    status = validate_required(json, req_names);
+    status = validate_required_obj(json, req_names);
     return status;
 }
 
+/**
+ * @brief Validator for the header section of the report json document.
+ *
+ * Expected json structure is an array of objects defined as:
+ * @code
+ * [
+ *   {
+ *     "label": "Genome identifier",
+ *     "value": "Case 1"
+ *   }
+ * ]
+ * @endcode
+ *
+ * Validation rules:
+ * - The input must be a json array
+ * - The elements in the array must be objects
+ * - The required fields within each object must be present
+ * - The value of each field in each object must be a non-empty string
+ *
+ * @param json Pointer to a cJSON object representing the header section.
+ * @return OK on success.
+ * @return ERR_TYPE_MISMATCH if json is not an object or a field has the wrong
+ * type.
+ * @return ERR_MISSING_FIELD if a required field is missing.
+ * @return ERR_INVALID_VALUE if a field value is empty or invalid.
+ *
+ * @note The function does not take ownership of @p json. The caller is
+ * responsible for managing the life of the cJSON tree.
+ */
 json_status_t validate_clinical_header(const cJSON *json)
 {
     const char *req_names[] = {
-        "genome_identifier",
-        "isolate_lab_identifier",
-        "date_collection",
-        "location",
-        "source_type",
-        "host_tissue",
-        "accession_number",
-        "genome_report_date",
-        "genome_quality"
+        "label",
+        "value"
     };
     json_status_t status = OK;
-    status = validate_required(json, req_names);
+    status = validate_required_objarr(json, req_names);
     return status;
 }
 

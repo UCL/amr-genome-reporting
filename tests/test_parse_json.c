@@ -111,6 +111,20 @@ void test_metadata_author_empty_string(void)
     cJSON_Delete(json);
 }
 
+void test_header_valid(void)
+{
+    const char *json_text =
+        "["
+        "  {\"label\":\"A label\", \"value\": \"A value\"}"
+        "]";
+    cJSON *json = parse(json_text);
+
+    json_status_t rc = validate_clinical_header(json);
+    TEST_ASSERT_EQUAL(OK, rc);
+
+    cJSON_Delete(json);
+}
+
 int main(void)
 {
   UNITY_BEGIN();
@@ -119,6 +133,8 @@ int main(void)
   RUN_TEST(test_metadata_missing_author);
   RUN_TEST(test_metadata_author_wrong_type);
   RUN_TEST(test_metadata_author_empty_string);
+
+  RUN_TEST(test_header_valid);
   
   return UNITY_END();
 }
