@@ -63,6 +63,7 @@ SRC_DIRS := \
 	src/io \
 	src/json \
 	src/pdf \
+	src/data \
 	src
 
 BUILD_DIR := build

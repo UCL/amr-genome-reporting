@@ -190,3 +190,36 @@ json_status_t validate_json_structure(const cJSON *json)
   }
   return OK;
 }
+
+report_data_t extract_data(const cJSON *json)
+{
+    report_data_t data;
+    report_data_init(&data);
+
+    data.title = "CLINICAL GENOME REPORT";
+
+    cJSON *header = cJSON_GetObjectItemCaseSensitive(json, "header");
+    if (!header) {
+        fprintf(stderr, "Missing section header\n");
+        return data;
+    }
+
+    // Caller must have validated the JSON document already
+    cJSON *iterator = NULL;
+    cJSON *label = NULL;
+    cJSON *value = NULL;
+    cJSON_ArrayForEach(iterator, header)
+    {
+        label = cJSON_GetObjectItemCaseSensitive(iterator, "label");
+        value = cJSON_GetObjectItemCaseSensitive(iterator, "value");
+
+        report_data_append_header(&data, label->valuestring, value->valuestring);
+    }
+
+//    cJSON_Delete(header);
+    cJSON_Delete(iterator);
+//    cJSON_Delete(label);
+//    cJSON_Delete(value);
+
+    return data;
+}

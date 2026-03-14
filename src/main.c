@@ -61,30 +61,17 @@ int main(int argc, char **argv)
 
   json_status_t status = validate_json_structure(json);
 
-  // TODO
-  // report_data_t data = extract_data(json);
+  report_data_t extract = extract_data(json);
 
-  cJSON_Delete(json);
+  //cJSON_Delete(json);
   free(json_text);
 
   if (status != OK)
     return 5; // TODO replace with proper error code enum value
 
   printf("JSON file '%s' is valid\n", filename);
-
-  report_clinical_header_t clinical_headers[] = {
-      {"Genome identifier", "Case 1"},
-      {"Isolate/laboratory identifier", "K1"},
-      {"Date of isolation", "16/05/2023"}
-  };
-
-  report_data_t data = {
-      .title = "Title",
-      .clinical_header = clinical_headers,
-      .clinical_header_size = sizeof(clinical_headers) / sizeof(clinical_headers[0])
-  };
-
-  pdfio_file_t *pdf = create_pdf_file("filename.pdf", data);
+  
+  pdfio_file_t *pdf = create_pdf_file("filename.pdf", &extract);
 
   // 1 = true, 0 = false
   return (int) pdfioFileClose(pdf);

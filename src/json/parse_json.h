@@ -19,7 +19,7 @@
 #define PARSE_JSON_H
 
 #include <cJSON.h>
-#include "../main.h"
+#include "../data/data.h"
 
 /**
  * @enum json_status_t

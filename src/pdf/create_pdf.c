@@ -90,8 +90,14 @@ bool draw_header_content(pdfio_stream_t *stream, report_clinical_header_t *heade
 {
     char *label;
     char *value;
-    char content[256];
-    float line_pos = *line_position - 18.0;
+    char content[512];
+    float line_pos = *line_position - 10.0;
+    fprintf(stdout, "Header size is %zu\n", header_size);
+
+    if (!header) {
+        fprintf(stderr, "Header is null\n");
+        return false;
+    }
     
     for (size_t i = 0; i < header_size; i++)
     {
@@ -104,7 +110,7 @@ bool draw_header_content(pdfio_stream_t *stream, report_clinical_header_t *heade
         // Test if index is even/odd
         if ((i & 1) == 0) // first column
         {
-            line_pos = line_pos - 8.0 * i;
+            line_pos = line_pos - 12.0;
             pdfioContentTextMoveTo(stream, MARGIN + 12.0, line_pos);
         } else // second column
         {
@@ -123,10 +129,8 @@ bool draw_header_content(pdfio_stream_t *stream, report_clinical_header_t *heade
     return true;
 }
 
-pdfio_file_t *create_pdf_file(const char *filename, const report_data_t data)
+pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
 {
-    (void)data;
-    
     int error_cbdata = 2;
     pdfio_file_t *pdf = pdfioFileCreate(
         filename,
@@ -152,8 +156,8 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t data)
     draw_header_banner(page, &line_position);
     draw_header_content(
         page,
-        data.clinical_header,
-        data.clinical_header_size,
+        data->clinical_header,
+        data->clinical_header_size,
         &line_position);
     
     pdfioStreamClose(page);

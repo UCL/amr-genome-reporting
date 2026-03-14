@@ -19,8 +19,8 @@
 #define CREATE_PDF_H
 
 #include <pdfio.h>
-#include "../main.h"
+#include "../data/data.h"
 
-pdfio_file_t *create_pdf_file(const char *filename, const report_data_t data);
+pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data);
 
 #endif /* CREATE_PDF_H */
