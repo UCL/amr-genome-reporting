@@ -16,19 +16,18 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "create_pdf.h"
+#include "layout.h"
+#include "writer.h"
 
 #include <pdfio.h>
 #include <pdfio-content.h>
 #include <stdio.h>
 #include <sys/types.h>
 
-#define PAGE_WIDTH 595.28
-#define PAGE_HEIGHT 841.89
-#define MARGIN 36.0
-#define HEADER_HEIGHT 50.0
+#define HEADER_HEIGHT 40.0
 
 // Both boxes set in 1/72nd of an inch units
-pdfio_rect_t a4_media_box = { 0, 0, 595.28, 841.89 };
+pdfio_rect_t a4_media_box = { 0, 0, PAGE_WIDTH, PAGE_HEIGHT };
 // set 0.5'' margins in points
 pdfio_rect_t a4_crop_box = { 36.0, 36.0, 559.28, 805.89 };
 
@@ -52,19 +51,24 @@ bool pdfio_error_cb(pdfio_file_t *pdf, const char *message, void *data)
     return false;
 }
 
-bool draw_header_banner(pdfio_stream_t *stream, double *line_position)
+bool draw_definition_box(
+    pdfio_stream_t *stream,
+    double *line_position,
+    char *label,
+    char *text,
+    double font_size)
 {
-    double rect_x = MARGIN;
-    double rect_y = PAGE_HEIGHT - MARGIN - HEADER_HEIGHT;
+        double rect_x = MARGIN;
+    double rect_y = *line_position - HEADER_HEIGHT;
     double rect_w = PAGE_WIDTH - 2 * MARGIN;
     double rect_h = HEADER_HEIGHT;
 
     // Colours
-    pdfioContentSetFillColorDeviceRGB(stream, 1.0, 1.0, 153.0/255.0); // Fill
+    pdfioContentSetFillColorDeviceRGB(stream, 1.0, 1.0, 1.0); // Fill
     pdfioContentSetStrokeColorDeviceRGB(stream, 0.0, 0.0, 0.0); // Stroke
 
     // Draw rectangle
-    pdfioContentPathRect(stream, rect_x, rect_y, rect_w, rect_y);
+    pdfioContentPathRect(stream, rect_x, rect_y, rect_w, rect_h);
 
     // Fill and stroke
     pdfioContentFillAndStroke(stream, false);
@@ -73,59 +77,16 @@ bool draw_header_banner(pdfio_stream_t *stream, double *line_position)
     pdfioContentSetFillColorDeviceGray(stream, 0.0);
     pdfioContentSetStrokeColorGray(stream, 0.0);
     pdfioContentTextBegin(stream);
-    pdfioContentSetTextFont(stream, "F1", 14.0);
+    pdfioContentSetTextFont(stream, "I1", font_size);
 
     // Inset text
     pdfioContentTextMoveTo(stream, rect_x + 12.0, rect_y + rect_h / 2.0 - 6.0);
 //    pdfioContentTextMoveTo(stream, 12.0, 36.0);
 
-    pdfioContentTextShow(stream, /*unicode*/false, "CLINICAL GENOME REPORT");
+    pdfioContentTextShow(stream, /*unicode*/false, text);
     pdfioContentTextEnd(stream);
 
     *line_position = rect_y;
-    return true;
-}
-
-bool draw_header_content(pdfio_stream_t *stream, report_clinical_header_t *header, size_t header_size, double *line_position)
-{
-    char *label;
-    char *value;
-    char content[512];
-    float line_pos = *line_position - 10.0;
-    fprintf(stdout, "Header size is %zu\n", header_size);
-
-    if (!header) {
-        fprintf(stderr, "Header is null\n");
-        return false;
-    }
-    
-    for (size_t i = 0; i < header_size; i++)
-    {
-        label = header[i].label;
-        value = header[i].value;
-        snprintf(content, sizeof(content), "%s: %s", label, value);
-
-        pdfioContentTextBegin(stream);
-        pdfioContentSetTextFont(stream, "F1", 10.0);
-        // Test if index is even/odd
-        if ((i & 1) == 0) // first column
-        {
-            line_pos = line_pos - 12.0;
-            pdfioContentTextMoveTo(stream, MARGIN + 12.0, line_pos);
-        } else // second column
-        {
-            pdfioContentTextMoveTo(stream, PAGE_WIDTH / 2.0 + 12.0, line_pos);
-        }
-        pdfioContentTextShow(stream, false, content);
-        pdfioContentTextEnd(stream);
-    }
-
-    *line_position = line_pos - 18.0;
-
-    (void)label;
-    (void)value;
-    (void)content;
-
     return true;
 }
 
@@ -136,30 +97,46 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
         filename,
         "2.0",
         &a4_media_box,
-        &a4_crop_box,
+        NULL,
         pdfio_error_cb,
         &error_cbdata);
     // TODO check pdf is not null
 
-    pdfio_obj_t *font = pdfioFileCreateFontObjFromBase(pdf, "Helvetica");
+    pdfio_obj_t *font = pdfioFileCreateFontObjFromBase(pdf, FONT_NORM);
+    pdfio_obj_t *bold = pdfioFileCreateFontObjFromBase(pdf, FONT_BOLD);
+    pdfio_obj_t *ital = pdfioFileCreateFontObjFromBase(pdf, FONT_ITAL);
     // TODO check font is not null
 
-    // Create page dictionary with font
+    // Create page dictionary with fonts
     pdfio_dict_t *dict = pdfioDictCreate(pdf);
-    pdfioPageDictAddFont(dict, "F1", font);
+    pdfioPageDictAddFont(dict, FONT_TAG_NORM, font);
+    pdfioPageDictAddFont(dict, FONT_TAG_BOLD, bold);
+    pdfioPageDictAddFont(dict, FONT_TAG_ITAL, ital);
 
     // Create page with its content stream
     pdfio_stream_t *page = pdfioFileCreatePage(pdf, dict);
 
-    double line_position = MARGIN;
+    colour_t colour = { COLOUR_YELLOW };
+    
+    // Initialise layout context
+    layout_ctx_t layout;
+    init_layout_ctx(&layout);
+    set_font_size(&layout, 14.0);
+    cursor_to_newline(&layout);
 
-    draw_header_banner(page, &line_position);
+    draw_banner(page, &layout, colour, "CLINICAL GENOME REPORT");
+
+    set_font_size(&layout, 10.0);
     draw_header_content(
         page,
+        &layout,
         data->clinical_header,
-        data->clinical_header_size,
-        &line_position);
+        data->clinical_header_size);
     
+    set_font_size(&layout, 12.0);
+    draw_banner(page, &layout, colour, "Section I: Clinical microbiology");
+    
+//    draw_definition_box(page, &line_position, "Summary", "Klebsiella", 11.0);
     pdfioStreamClose(page);
     
     return pdf;
