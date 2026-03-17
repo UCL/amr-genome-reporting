@@ -18,6 +18,8 @@
 #include "data.h"
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 void report_data_init(report_data_t *data)
 {
@@ -25,6 +27,10 @@ void report_data_init(report_data_t *data)
     data->clinical_header = NULL;
     data->clinical_header_size = 0;
     data->clinical_header_capacity = 0;
+    data->clinical_microbiology.organism = NULL;
+    data->clinical_microbiology.summary_segments = NULL;
+    data->clinical_microbiology.summary_segments_size = 0;
+    data->clinical_microbiology.summary_segments_capacity = 0;
 }
 
 void report_data_free(report_data_t *data)
@@ -33,6 +39,18 @@ void report_data_free(report_data_t *data)
     data->clinical_header = NULL;
     data->clinical_header_size = 0;
     data->clinical_header_capacity = 0;
+}
+
+static report_summary_font_t parse_font(const char *font)
+{
+    if (strcmp(font, "normal") == 0)
+        return normal;
+    if (strcmp(font, "bold") == 0)
+        return bold;
+    if (strcmp(font, "italic") == 0)
+        return italic;
+
+    return normal; // fallback
 }
 
 int report_data_append_header(
@@ -62,4 +80,32 @@ int report_data_append_header(
     item->value = value;
 
     return 1;
+}
+
+void report_data_append_clinical_microbiology_summary(
+    report_data_t *data,
+    const char *font,
+    const char *text)
+{
+    if (data->clinical_microbiology.summary_segments_size == data->clinical_microbiology.summary_segments_capacity)
+    {
+        size_t capacity = data->clinical_microbiology.summary_segments_capacity == 0
+            ? 8
+            : data->clinical_microbiology.summary_segments_capacity * 2;
+
+        report_summary_segment_t *tmp = realloc(
+            data->clinical_microbiology.summary_segments,
+            capacity * sizeof(report_summary_segment_t));
+        if (!tmp)
+            return;
+
+        data->clinical_microbiology.summary_segments = tmp;
+        data->clinical_microbiology.summary_segments_capacity = capacity;
+    }
+
+    report_summary_segment_t *segment = &data->clinical_microbiology.summary_segments[
+        data->clinical_microbiology.summary_segments_size++];
+
+    segment->font = parse_font(font);
+    segment->text = strdup(text);
 }

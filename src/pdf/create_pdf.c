@@ -135,7 +135,9 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     
     set_font_size(&layout, 12.0);
     draw_banner(page, &layout, colour, "Section I: Clinical microbiology");
-    
+
+    set_font_size(&layout, 10.0);
+    draw_summary(page, &layout, colour, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
 //    draw_definition_box(page, &line_position, "Summary", "Klebsiella", 11.0);
     pdfioStreamClose(page);
     

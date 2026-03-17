@@ -23,6 +23,13 @@
 
 #include <pdfio.h>
 
+typedef struct rect_coordinates_s {
+    double x;
+    double y;
+    double w;
+    double h;
+} rect_coordinates_t;
+
 void draw_banner(
     pdfio_stream_t *stream,
     layout_ctx_t *ctx,
@@ -34,5 +41,12 @@ void draw_header_content(
     layout_ctx_t *ctx,
     report_clinical_header_t *header,
     size_t header_size);
+
+void draw_summary(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    colour_t bgcol,
+    report_summary_segment_t *summary_segments,
+    size_t summary_segments_size);
 
 #endif /* WRITER_H */

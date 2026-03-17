@@ -42,5 +42,18 @@
             "label": "Genome quality",
             "value": "Acceptable"
         }
-    ]
+    ],
+    "clinical_microbiology": {
+        "summary": [
+            {
+                "font": "italic",
+                "text": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
+            },
+            {
+                "font": "normal",
+                "text": "with intrinsic ampicillin resistance. Note multidrug resistance - ESBL producing"
+            }
+        ],
+        "organism": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
+    }
 }

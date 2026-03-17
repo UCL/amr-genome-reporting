@@ -216,6 +216,29 @@ report_data_t extract_data(const cJSON *json)
         report_data_append_header(&data, label->valuestring, value->valuestring);
     }
 
+    cJSON *clinical_microbiology = cJSON_GetObjectItemCaseSensitive(json, "clinical_microbiology");
+    if (!clinical_microbiology) {
+        fprintf(stderr, "Missing section clinical_microbiology\n");
+        return data;
+    }
+    cJSON *clinical_summary = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "summary");
+    if (!clinical_summary) {
+        fprintf(stderr, "Missing section clinical_microbiology.summary\n");
+        return data;
+    }
+    cJSON *font = NULL;
+    cJSON *text = NULL;
+    cJSON_ArrayForEach(iterator, clinical_summary)
+    {
+        font = cJSON_GetObjectItemCaseSensitive(iterator, "font");
+        text = cJSON_GetObjectItemCaseSensitive(iterator, "text");
+
+        report_data_append_clinical_microbiology_summary(&data, font->valuestring, text->valuestring);
+    }
+
+    cJSON *organism = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "organism");
+    data.clinical_microbiology.organism = organism->valuestring;
+
 //    cJSON_Delete(header);
     cJSON_Delete(iterator);
 //    cJSON_Delete(label);

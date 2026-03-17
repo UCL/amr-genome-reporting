@@ -25,11 +25,30 @@ typedef struct report_clinical_header_s {
     char *value;
 } report_clinical_header_t;
 
+typedef enum report_summary_font_e {
+    normal,
+    bold,
+    italic
+} report_summary_font_t;
+
+typedef struct report_summary_segment_s {
+    report_summary_font_t font;
+    char *text;
+} report_summary_segment_t;
+
+typedef struct report_clinical_microbiology_s {
+    report_summary_segment_t *summary_segments;
+    size_t summary_segments_size;
+    size_t summary_segments_capacity;
+    char *organism;
+} report_clinical_microbiology_t;
+
 typedef struct report_data_s {
     char *title;
     report_clinical_header_t *clinical_header;
     size_t clinical_header_size;
     size_t clinical_header_capacity;
+    report_clinical_microbiology_t clinical_microbiology;
 } report_data_t;
 
 void report_data_init(report_data_t *data);
@@ -38,5 +57,8 @@ void report_data_free(report_data_t *data);
 
 int report_data_append_header(
     report_data_t *data, const char *label, const char *value);
+
+void report_data_append_clinical_microbiology_summary(
+    report_data_t *data, const char *font, const char *text);
 
 #endif /* DATA_H */
