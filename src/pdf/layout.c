@@ -24,12 +24,15 @@ void init_layout_ctx(layout_ctx_t *ctx)
     ctx->cursor_y = PAGE_HEIGHT - 2 * MARGIN;
     ctx->font_size = 10.0;
     ctx->line_height = 12.0;
+    ctx->line_padding = 0;
+    ctx->line_width = PAGE_WIDTH - 2 * MARGIN;
 }
 
 void set_font_size(layout_ctx_t *ctx, double size)
 {
     ctx->font_size = size;
     ctx->line_height = size * 1.2;
+    ctx->line_padding = 2 * size;
 }
 
 void cursor_to_newline(layout_ctx_t *ctx)

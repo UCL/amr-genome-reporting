@@ -40,6 +40,8 @@ typedef struct layout_ctx_s {
     double cursor_y;
     double font_size;
     double line_height;
+    double line_width;
+    double line_padding;
 } layout_ctx_t;
 
 typedef struct colour_s {

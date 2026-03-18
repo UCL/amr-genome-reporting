@@ -22,6 +22,9 @@
 #include <pdfio.h>
 #include <pdfio-content.h>
 #include <string.h>
+#include <ctype.h>
+
+#define MAX_LINE_LENGTH 512
 
 rect_coordinates_t calculate_coordinates(layout_ctx_t *ctx)
 {
@@ -50,6 +53,24 @@ static char *next_word(char **text)
     return start;
 }
 
+static const char *next_word_const(const char **text, size_t *len)
+{
+    if (**text == '\0')
+        return NULL;
+
+    while (isspace((unsigned char)**text))
+        (*text)++;
+
+    const char *start = *text;
+
+    while (**text && !isspace((unsigned char)**text))
+        (*text)++;
+
+    *len = *text - start;
+
+    return start;    
+}
+
 size_t wrap_text(
     pdfio_stream_t *stream,
     pdfio_dict_t *dict,
@@ -57,28 +78,41 @@ size_t wrap_text(
     double font_size,
     double max_width,
     char *text,
-    char lines[][8],
+    char lines[][MAX_LINE_LENGTH],
     size_t max_lines)
 {
     size_t line_count = 0;
     double line_width = 0;
 
+    pdfio_obj_t *font_obj = pdfioDictGetObj(dict, font);
+    if (!font_obj)
+    {
+        fprintf(stderr, "Font %s not found\n", font);
+        return 0;
+    }
+
     pdfioContentSetTextFont(stream, font, font_size);
 
-    char current_line[512] = {0};
+    char current_line[MAX_LINE_LENGTH] = {0};
 
-    char *cursor = text;
+    char *buffer = strdup(text);
+    char *cursor = buffer;
     char *word;
 
-    pdfio_obj_t *font_obj = pdfioDictGetObj(dict, font);
+    double space_width = pdfioContentTextMeasure(font_obj, " ", font_size);
 
     while ((word = next_word(&cursor)) != NULL)
     {
         double word_width = pdfioContentTextMeasure(font_obj, word, font_size);
 
+        if (word_width > max_width)
+        {
+            // TODO: Truncate
+        }
+
         if (line_width + word_width > max_width)
         {
-            strcpy(lines[line_count++], current_line);
+            strncpy(lines[line_count++], current_line, MAX_LINE_LENGTH);
 
             if (line_count >= max_lines)
                 break;
@@ -89,18 +123,123 @@ size_t wrap_text(
 
         if (current_line[0] != '\0')
         {
-            strcat(current_line, " ");
-            line_width += pdfioContentTextMeasure(font_obj, " ", font_size);
+            strncat(current_line, " ", MAX_LINE_LENGTH - strlen(current_line) - 1);
+            line_width += space_width;
         }
 
-        strcat(current_line, word);
+        strncat(current_line, word, sizeof(current_line) - strlen(current_line) - 1);
         line_width += word_width;
     }
 
     if (current_line[0] != '\0' && line_count < max_lines)
-        strcpy(lines[line_count++], current_line);
+        strncpy(lines[line_count++], current_line, MAX_LINE_LENGTH);
 
+    free(buffer);
     return line_count;
+}
+
+static const char *font_to_pdf_tag(report_summary_font_t font)
+{
+    switch(font)
+    {
+    case normal: return "F1";
+    case bold: return FONT_TAG_BOLD;
+    case italic: return "I1";
+    default: return FONT_TAG_NORM;
+    }
+}
+
+static const pdfio_obj_t *get_font_obj(font_cache_t *cache, report_summary_font_t font)
+{
+    switch(font)
+    {
+    case normal: return cache->normal;
+    case bold: return cache->bold;
+    case italic: return cache->italic;
+    }
+}
+
+void render_wrapped_segments(
+    pdfio_stream_t *stream,
+    font_cache_t *font_cache,
+    report_summary_segment_t *segments,
+    size_t segment_count,
+    layout_ctx_t *ctx)
+{
+    double start_x = ctx->cursor_x;
+    double x = ctx->cursor_x;
+
+    double space_width = pdfioContentTextMeasure(font_cache->normal, " ", ctx->font_size);
+
+    const char *label = "Summary: ";
+    pdfioContentSetTextFont(stream, FONT_TAG_BOLD, ctx->font_size);
+    pdfioContentTextBegin(stream);
+    pdfioContentTextMoveTo(stream, x, ctx->cursor_y);
+    pdfioContentTextShow(stream, false, label);
+    pdfioContentTextEnd(stream);
+
+    double label_width = pdfioContentTextMeasure(font_cache->normal, label, ctx->font_size);
+    x += label_width + space_width;
+
+    // Iterate over segments
+    for (size_t i = 0; i < segment_count; i++)
+    {
+        report_summary_segment_t *seg = &segments[i];
+
+        const char *font_tag = font_to_pdf_tag(seg->font);
+
+        pdfio_obj_t *font_obj = get_font_obj(font_cache, seg->font);
+        if (!font_obj)
+            continue;
+
+        pdfioContentSetTextFont(stream, font_tag, ctx->font_size);
+
+        const char *cursor = seg->text;
+        const char *word;
+        size_t word_len;
+
+        // Iterate over each word in the segment
+        while ((word = next_word_const(&cursor, &word_len)) != NULL)
+        {
+            char buffer[256];
+            if (word_len >= sizeof(buffer))
+                word_len = sizeof(buffer) - 1; // We truncate
+
+            memcpy(buffer, word, word_len);
+            buffer[word_len] = '\0';
+
+            double word_width = pdfioContentTextMeasure(font_cache->normal, buffer, ctx->font_size);
+            if (x + word_width > start_x + ctx->line_width)
+            {
+                cursor_to_newline(ctx);
+                x = start_x;
+            }
+            // Move before drawing
+            pdfioContentTextBegin(stream);
+            pdfioContentTextMoveTo(stream, x, ctx->cursor_y);
+            pdfioContentTextShow(stream, false, buffer);
+            pdfioContentTextEnd(stream);
+
+            x += word_width;
+
+            // Add space if needed
+            if (*cursor != '\0')
+            {
+                if (x + space_width > start_x + ctx->line_width)
+                {
+                    cursor_to_newline(ctx);
+                    x = start_x;
+                }
+                else
+                {
+                    x += space_width;
+                }
+            }
+        }
+        x += space_width;
+    }
+
+    cursor_to_newline(ctx);
 }
 
 void draw_banner(
@@ -189,6 +328,7 @@ void draw_header_content(
 
 void draw_summary(
     pdfio_stream_t *stream,
+    font_cache_t *font_cache,
     layout_ctx_t *ctx,
     colour_t bgcol,
     report_summary_segment_t *summary_segments,
@@ -207,31 +347,39 @@ void draw_summary(
     // Fill and stroke
     pdfioContentFillAndStroke(stream, false);
 
-    report_summary_font_t *font;
-    char *text;
-    char *font_tag;
-    report_summary_font_t font_type;
-
     pdfioContentSetFillColorDeviceGray(stream, 0.0);
     pdfioContentSetStrokeColorGray(stream, 0.0);    
-    pdfioContentTextBegin(stream);
     cursor_to_newline(ctx);
-    for (size_t i = 0; i < summary_segments_size; i++)
-    {
-        font = summary_segments[i].font;
-        text = summary_segments[i].text;
 
-        if (font == normal) {
-            pdfioContentSetTextFont(stream, FONT_TAG_NORM, ctx->font_size);
-        } else if (font == italic) {
-            pdfioContentSetTextFont(stream, FONT_TAG_ITAL, ctx->font_size);
-        } else if (font == bold) {
-            pdfioContentSetTextFont(stream, FONT_TAG_BOLD, ctx->font_size);
-        }
-            
-        pdfioContentTextMoveTo(stream, ctx->cursor_x, ctx->cursor_y);
-        pdfioContentTextShow(stream, false, text);
-        cursor_to_newline(ctx);
-    }
+    render_wrapped_segments(
+        stream, font_cache, summary_segments, summary_segments_size, ctx);
+
+}
+
+void draw_organism(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+    char *organism)
+{
+    const char *label = "Organism: ";
+    double label_width = pdfioContentTextMeasure(font_cache->normal, label, ctx->font_size);
+    
+    cursor_to_newline(ctx);
+    cursor_to_newline(ctx);
+    rect_coordinates_t coord = calculate_coordinates(ctx);
+
+    pdfioContentSetTextFont(stream, FONT_TAG_BOLD, ctx->font_size);    
+    pdfioContentTextBegin(stream);
+    pdfioContentTextMoveTo(stream, ctx->cursor_x, ctx->cursor_y);
+    pdfioContentTextShow(stream, false, label);
     pdfioContentTextEnd(stream);
+
+    pdfioContentSetTextFont(stream, FONT_TAG_ITAL, ctx->font_size);    
+    pdfioContentTextBegin(stream);
+    pdfioContentTextMoveTo(stream, ctx->cursor_x + label_width + ctx->font_size / 2, ctx->cursor_y);
+    pdfioContentTextShow(stream, false, organism);
+    pdfioContentTextEnd(stream);
+
+    cursor_to_newline(ctx);
 }

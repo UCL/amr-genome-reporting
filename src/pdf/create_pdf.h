@@ -21,6 +21,12 @@
 #include <pdfio.h>
 #include "../data/data.h"
 
+typedef struct {
+    pdfio_obj_t *normal;
+    pdfio_obj_t *bold;
+    pdfio_obj_t *italic;
+} font_cache_t;
+
 pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data);
 
 #endif /* CREATE_PDF_H */

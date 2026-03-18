@@ -116,6 +116,13 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     // Create page with its content stream
     pdfio_stream_t *page = pdfioFileCreatePage(pdf, dict);
 
+    // We cache the font objects
+    font_cache_t font_cache = {
+        .normal = font,
+        .bold = bold,
+        .italic = ital
+    };
+    
     colour_t colour = { COLOUR_YELLOW };
     
     // Initialise layout context
@@ -137,8 +144,9 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     draw_banner(page, &layout, colour, "Section I: Clinical microbiology");
 
     set_font_size(&layout, 10.0);
-    draw_summary(page, &layout, colour, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
-//    draw_definition_box(page, &line_position, "Summary", "Klebsiella", 11.0);
+    draw_summary(page, &font_cache, &layout, colour, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
+
+    draw_organism(page, &layout, &font_cache, data->clinical_microbiology.organism);
     pdfioStreamClose(page);
     
     return pdf;

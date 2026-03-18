@@ -44,9 +44,16 @@ void draw_header_content(
 
 void draw_summary(
     pdfio_stream_t *stream,
+    font_cache_t *font_cache,
     layout_ctx_t *ctx,
     colour_t bgcol,
     report_summary_segment_t *summary_segments,
     size_t summary_segments_size);
+
+void draw_organism(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+    char *organism);
 
 #endif /* WRITER_H */
