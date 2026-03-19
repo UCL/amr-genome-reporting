@@ -38,6 +38,9 @@ void report_data_init(report_data_t *data)
     data->clinical_microbiology.bacterial_typing.url = NULL;
     data->clinical_microbiology.bacterial_typing.typing = NULL;
     data->clinical_microbiology.bacterial_typing.sequence_type = NULL;
+    data->clinical_microbiology.determinants = NULL;
+    data->clinical_microbiology.determinants_size = 0;
+    data->clinical_microbiology.determinants_capacity = 0;
 }
 
 void report_data_free(report_data_t *data)
@@ -49,7 +52,11 @@ void report_data_free(report_data_t *data)
     free(data->clinical_microbiology.bacterial_typing.profile);
     data->clinical_microbiology.bacterial_typing.profile = NULL;
     data->clinical_microbiology.bacterial_typing.profile_size = 0;
-    data->clinical_microbiology.bacterial_typing.profile_capacity = 0;    
+    data->clinical_microbiology.bacterial_typing.profile_capacity = 0;
+    free(data->clinical_microbiology.determinants);
+    data->clinical_microbiology.determinants = NULL;
+    data->clinical_microbiology.determinants_size = 0;
+    data->clinical_microbiology.determinants_capacity = 0;
 }
 
 static report_summary_font_t parse_font(const char *font)

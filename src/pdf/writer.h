@@ -62,4 +62,9 @@ void draw_bacterial_typing(
     font_cache_t *font_cache,
     report_bacterial_typing_t bacterial_typing);
 
+void draw_determinants(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+
 #endif /* WRITER_H */

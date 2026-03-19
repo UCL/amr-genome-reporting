@@ -51,12 +51,20 @@ typedef struct report_bacterial_typing_s {
     size_t profile_capacity;
 } report_bacterial_typing_t;
 
+typedef struct report_determinants_s {
+    char *drug;
+    char *acquired_gen;
+} report_determinants_t;
+
 typedef struct report_clinical_microbiology_s {
     report_summary_segment_t *summary_segments;
     size_t summary_segments_size;
     size_t summary_segments_capacity;
     char *organism;
     report_bacterial_typing_t bacterial_typing;
+    report_determinants_t *determinants;
+    size_t determinants_size;
+    size_t determinants_capacity;
 } report_clinical_microbiology_t;
 
 typedef struct report_data_s {

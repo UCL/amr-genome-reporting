@@ -90,6 +90,60 @@
                     "allele": "51"
                 }       
             ]
-        }
+        },
+        "antibiotic_resistance_determinants": [
+            {
+                "drug_class": "Penicillins (expected resistance due to blaSHV)",
+                "acquired_genotypes": "blaTEM-1B, blaOXA-1, blaCTX-M-15"
+            },
+            {
+                "drug_class": "  + β-lactamase inhibitor",
+                "acquired_genotypes": "blaOXA-1"
+            },
+            {
+                "drug_class": "Cephalosporins (3rd gen)",
+                "acquired_genotypes": "blaCTX-M-15"
+            },
+            {
+                "drug_class": "  + β-lactamase inhibitor",
+                "acquired_genotypes": "None found"
+            },
+            {
+                "drug_class": "Carbapenems",
+                "acquired_genotypes": "None found"
+            },
+            {
+                "drug_class": "  + β-lactamase inhibitor",
+                "acquired_genotypes": "None found"
+            },
+            {
+                "drug_class": "Aminoglycosides",
+                "acquired_genotypes": "aac(6')-lb-cr, gyrA (p.Ser83Tyr)"
+            },
+            {
+                "drug_class": "Fosfomycin",
+                "acquired_genotypes": "fosA9"
+            },
+            {
+                "drug_class": "Phenicols",
+                "acquired_genotypes": "None"
+            },
+            {
+                "drug_class": "Polymixins",
+                "acquired_genotypes": "None found"
+            },
+            {
+                "drug_class": "Tigecycline",
+                "acquired_genotypes": "None found"
+            },
+            {
+                "drug_class": "Trimethoprim",
+                "acquired_genotypes": "dfrA14"
+            },
+            {
+                "drug_class": "  + Sulfonamides",
+                "acquired_genotypes": "None found"
+            }
+        ]
     }
 }
