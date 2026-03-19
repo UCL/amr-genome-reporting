@@ -421,5 +421,44 @@ void draw_bacterial_typing(
     strncat(seq_type, bacterial_typing.sequence_type, seq_type_len);
     cursor_to_newline(ctx);
     write_string(stream, ctx, seq_type, FONT_TAG_NORM);
-    
+    cursor_to_newline(ctx);
+}
+
+void draw_determinants(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    report_determinants_t *determinants,
+    size_t determinants_size)
+{
+    cursor_to_newline(ctx);
+
+    cursor_to_coordinates(ctx, ctx->margin + 12.0, ctx->cursor_y);
+    write_string(stream, ctx, "Drug class", FONT_TAG_BOLD);
+    cursor_to_coordinates(ctx, PAGE_WIDTH / 2.0 + 12.0, ctx->cursor_y);
+    write_string(stream, ctx, "Acquired genotypes", FONT_TAG_BOLD);
+
+    set_font_size(ctx, 8.0);
+    const char *drug;
+    const char *acq_gen;
+    for (size_t i = 0; i < determinants_size; i++)
+    {
+        drug = determinants[i].drug;
+        acq_gen = determinants[i].acquired_gen;
+        
+        cursor_to_newline(ctx);
+
+        pdfioContentSetStrokeColorDeviceRGB(stream, COLOUR_GREY); // Stroke
+        pdfioContentPathMoveTo(stream, ctx->margin, ctx->cursor_y + ctx->line_height / 2.5);
+        pdfioContentPathLineTo(stream, PAGE_WIDTH - ctx->margin, ctx->cursor_y + ctx->line_height / 2.5);
+        pdfioContentStroke(stream);
+        cursor_to_newline(ctx);
+        
+        cursor_to_coordinates(ctx, ctx->margin + 12.0, ctx->cursor_y);
+        write_string(stream, ctx, drug, FONT_TAG_NORM);
+
+        cursor_to_coordinates(ctx, PAGE_WIDTH / 2.0 + 12.0, ctx->cursor_y);
+        write_string(stream, ctx, acq_gen, FONT_TAG_NORM);
+    }
+    (void)drug;
+    (void)acq_gen;
 }

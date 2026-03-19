@@ -262,6 +262,20 @@ report_data_t extract_data(const cJSON *json)
 
         report_data_append_bacterial_typing_profile(&data, gene->valuestring, allele->valuestring);
     }
+    cJSON *determinants = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "antibiotic_resistance_determinants");
+    if (!determinants) {
+        fprintf(stderr, "Missing section antibiotic_resistance_determinants\n");
+        return data;
+    }
+    cJSON *drug = NULL;
+    cJSON *acq_gen = NULL;
+    cJSON_ArrayForEach(iterator, determinants)
+    {
+        drug = cJSON_GetObjectItemCaseSensitive(iterator, "drug_class");
+        acq_gen = cJSON_GetObjectItemCaseSensitive(iterator, "acquired_genotypes");
+
+        report_data_append_determinants(&data, drug->valuestring, acq_gen->valuestring);
+    }
 
 //    cJSON_Delete(header);
     cJSON_Delete(iterator);

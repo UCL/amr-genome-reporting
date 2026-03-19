@@ -97,7 +97,7 @@
                 "acquired_genotypes": "blaTEM-1B, blaOXA-1, blaCTX-M-15"
             },
             {
-                "drug_class": "  + β-lactamase inhibitor",
+                "drug_class": "  + beta-lactamase inhibitor",
                 "acquired_genotypes": "blaOXA-1"
             },
             {
@@ -105,7 +105,7 @@
                 "acquired_genotypes": "blaCTX-M-15"
             },
             {
-                "drug_class": "  + β-lactamase inhibitor",
+                "drug_class": "  + beta-lactamase inhibitor",
                 "acquired_genotypes": "None found"
             },
             {
@@ -113,7 +113,7 @@
                 "acquired_genotypes": "None found"
             },
             {
-                "drug_class": "  + β-lactamase inhibitor",
+                "drug_class": "  + beta-lactamase inhibitor",
                 "acquired_genotypes": "None found"
             },
             {
@@ -141,7 +141,7 @@
                 "acquired_genotypes": "dfrA14"
             },
             {
-                "drug_class": "  + Sulfonamides",
+                "drug_class": "  + sulfonamides",
                 "acquired_genotypes": "None found"
             }
         ]

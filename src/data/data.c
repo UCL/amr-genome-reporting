@@ -155,3 +155,31 @@ void report_data_append_bacterial_typing_profile(
     profile->gene = strdup(gene);
     profile->allele = strdup(allele);
 }
+
+void report_data_append_determinants(
+    report_data_t *data,
+    const char *drug,
+    const char *acquired_gen)
+{
+    if (data->clinical_microbiology.determinants_size == data->clinical_microbiology.determinants_capacity)
+    {
+        size_t capacity = data->clinical_microbiology.determinants_capacity == 0
+            ? 8
+            : data->clinical_microbiology.determinants_capacity * 2;
+
+        report_determinants_t *tmp = realloc(
+            data->clinical_microbiology.determinants,
+            capacity * sizeof(report_determinants_t));
+        if (!tmp)
+            return;
+
+        data->clinical_microbiology.determinants = tmp;
+        data->clinical_microbiology.determinants_capacity = capacity;
+    }
+
+    report_determinants_t *determinants = &data->clinical_microbiology.determinants[
+        data->clinical_microbiology.determinants_size++];
+
+    determinants->drug = drug;
+    determinants->acquired_gen = acquired_gen;
+}

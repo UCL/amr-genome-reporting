@@ -88,4 +88,9 @@ void report_data_append_clinical_microbiology_summary(
 void report_data_append_bacterial_typing_profile(
     report_data_t *data, const char *gene, const char *allele);
 
+void report_data_append_determinants(
+    report_data_t *data,
+    const char *drug,
+    const char *acquired_gen);
+
 #endif /* DATA_H */

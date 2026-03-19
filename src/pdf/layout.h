@@ -33,6 +33,7 @@
 #define COLOUR_YELLOW RGB(255,255,153)
 #define COLOUR_BLACK RGB(0,0,0)
 #define COLOUR_WHITE RGB(255,255,255)
+#define COLOUR_GREY RGB(192,192,192)
 
 typedef struct layout_ctx_s {
     double margin;
