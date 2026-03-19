@@ -51,45 +51,6 @@ bool pdfio_error_cb(pdfio_file_t *pdf, const char *message, void *data)
     return false;
 }
 
-bool draw_definition_box(
-    pdfio_stream_t *stream,
-    double *line_position,
-    char *label,
-    char *text,
-    double font_size)
-{
-        double rect_x = MARGIN;
-    double rect_y = *line_position - HEADER_HEIGHT;
-    double rect_w = PAGE_WIDTH - 2 * MARGIN;
-    double rect_h = HEADER_HEIGHT;
-
-    // Colours
-    pdfioContentSetFillColorDeviceRGB(stream, 1.0, 1.0, 1.0); // Fill
-    pdfioContentSetStrokeColorDeviceRGB(stream, 0.0, 0.0, 0.0); // Stroke
-
-    // Draw rectangle
-    pdfioContentPathRect(stream, rect_x, rect_y, rect_w, rect_h);
-
-    // Fill and stroke
-    pdfioContentFillAndStroke(stream, false);
-
-    // Draw text
-    pdfioContentSetFillColorDeviceGray(stream, 0.0);
-    pdfioContentSetStrokeColorGray(stream, 0.0);
-    pdfioContentTextBegin(stream);
-    pdfioContentSetTextFont(stream, "I1", font_size);
-
-    // Inset text
-    pdfioContentTextMoveTo(stream, rect_x + 12.0, rect_y + rect_h / 2.0 - 6.0);
-//    pdfioContentTextMoveTo(stream, 12.0, 36.0);
-
-    pdfioContentTextShow(stream, /*unicode*/false, text);
-    pdfioContentTextEnd(stream);
-
-    *line_position = rect_y;
-    return true;
-}
-
 pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
 {
     int error_cbdata = 2;
@@ -147,6 +108,11 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     draw_summary(page, &font_cache, &layout, colour, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
 
     draw_organism(page, &layout, &font_cache, data->clinical_microbiology.organism);
+
+    draw_bacterial_typing(page, &layout, &font_cache, data->clinical_microbiology.bacterial_typing);
+
+    
+    
     pdfioStreamClose(page);
     
     return pdf;

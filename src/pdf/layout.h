@@ -56,4 +56,6 @@ void set_font_size(layout_ctx_t *ctx, double size);
 
 void cursor_to_newline(layout_ctx_t *ctx);
 
+void cursor_to_coordinates(layout_ctx_t *ctx, double x, double y);
+
 #endif /* LAYOUT_H */

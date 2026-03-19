@@ -239,6 +239,30 @@ report_data_t extract_data(const cJSON *json)
     cJSON *organism = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "organism");
     data.clinical_microbiology.organism = organism->valuestring;
 
+    cJSON *bacterial_typing = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "bacterial_typing");
+    if (!bacterial_typing) {
+        fprintf(stderr, "Missing section clinical_microbiology.bacterial_typing\n");
+        return data;
+    }
+    cJSON *typing_desc = cJSON_GetObjectItemCaseSensitive(bacterial_typing, "description");
+    data.clinical_microbiology.bacterial_typing.description = typing_desc->valuestring;
+    cJSON *typing_url = cJSON_GetObjectItemCaseSensitive(bacterial_typing, "url");
+    data.clinical_microbiology.bacterial_typing.url = typing_url->valuestring;
+    cJSON *typing = cJSON_GetObjectItemCaseSensitive(bacterial_typing, "typing");
+    data.clinical_microbiology.bacterial_typing.typing = typing->valuestring;
+    cJSON *typing_seq = cJSON_GetObjectItemCaseSensitive(bacterial_typing, "sequence_type");
+    data.clinical_microbiology.bacterial_typing.sequence_type = typing_seq->valuestring;
+    cJSON *typing_profile = cJSON_GetObjectItemCaseSensitive(bacterial_typing, "profile");
+    cJSON *gene = NULL;
+    cJSON *allele = NULL;
+    cJSON_ArrayForEach(iterator, typing_profile)
+    {
+        gene = cJSON_GetObjectItemCaseSensitive(iterator, "gene");
+        allele = cJSON_GetObjectItemCaseSensitive(iterator, "allele");
+
+        report_data_append_bacterial_typing_profile(&data, gene->valuestring, allele->valuestring);
+    }
+
 //    cJSON_Delete(header);
     cJSON_Delete(iterator);
 //    cJSON_Delete(label);

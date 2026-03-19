@@ -40,3 +40,9 @@ void cursor_to_newline(layout_ctx_t *ctx)
     ctx->cursor_x = ctx->margin;
     ctx->cursor_y -= ctx->line_height;
 }
+
+void cursor_to_coordinates(layout_ctx_t *ctx, double x, double y)
+{
+    ctx->cursor_x = x;
+    ctx->cursor_y = y;
+}

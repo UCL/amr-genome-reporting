@@ -21,8 +21,8 @@
 #include <stddef.h>
 
 typedef struct report_clinical_header_s {
-    char *label;
-    char *value;
+    const char *label;
+    const char *value;
 } report_clinical_header_t;
 
 typedef enum report_summary_font_e {
@@ -36,11 +36,27 @@ typedef struct report_summary_segment_s {
     char *text;
 } report_summary_segment_t;
 
+typedef struct report_bacterial_typing_profile_s {
+    char *gene;
+    char *allele;
+} report_bacterial_typing_profile_t;
+
+typedef struct report_bacterial_typing_s {
+    char *description;
+    char *url;
+    char *typing;
+    char *sequence_type;
+    report_bacterial_typing_profile_t *profile;
+    size_t profile_size;
+    size_t profile_capacity;
+} report_bacterial_typing_t;
+
 typedef struct report_clinical_microbiology_s {
     report_summary_segment_t *summary_segments;
     size_t summary_segments_size;
     size_t summary_segments_capacity;
     char *organism;
+    report_bacterial_typing_t bacterial_typing;
 } report_clinical_microbiology_t;
 
 typedef struct report_data_s {
@@ -60,5 +76,8 @@ int report_data_append_header(
 
 void report_data_append_clinical_microbiology_summary(
     report_data_t *data, const char *font, const char *text);
+
+void report_data_append_bacterial_typing_profile(
+    report_data_t *data, const char *gene, const char *allele);
 
 #endif /* DATA_H */

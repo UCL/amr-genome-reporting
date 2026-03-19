@@ -188,7 +188,7 @@ void render_wrapped_segments(
 
         const char *font_tag = font_to_pdf_tag(seg->font);
 
-        pdfio_obj_t *font_obj = get_font_obj(font_cache, seg->font);
+        const pdfio_obj_t *font_obj = get_font_obj(font_cache, seg->font);
         if (!font_obj)
             continue;
 
@@ -288,8 +288,8 @@ void draw_header_content(
     report_clinical_header_t *header,
     size_t header_size)
 {
-    char *label;
-    char *value;
+    const char *label;
+    const char *value;
     char content[512];
     float line_pos = ctx->cursor_y - 10.0;
 
@@ -367,7 +367,6 @@ void draw_organism(
     
     cursor_to_newline(ctx);
     cursor_to_newline(ctx);
-    rect_coordinates_t coord = calculate_coordinates(ctx);
 
     pdfioContentSetTextFont(stream, FONT_TAG_BOLD, ctx->font_size);    
     pdfioContentTextBegin(stream);
@@ -382,4 +381,45 @@ void draw_organism(
     pdfioContentTextEnd(stream);
 
     cursor_to_newline(ctx);
+}
+
+void write_string(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    const char *text,
+    const char *font_tag)
+{
+    pdfioContentSetTextFont(stream, font_tag, ctx->font_size);    
+    pdfioContentTextBegin(stream);
+    pdfioContentTextMoveTo(stream, ctx->cursor_x, ctx->cursor_y);
+    pdfioContentTextShow(stream, false, text);
+    pdfioContentTextEnd(stream);
+}
+
+void draw_bacterial_typing(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+    report_bacterial_typing_t bacterial_typing)
+{
+    const char *label = "Bacterial typing: ";
+    double label_width = pdfioContentTextMeasure(font_cache->normal, label, ctx->font_size);
+
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, label, FONT_TAG_BOLD);
+
+    cursor_to_coordinates(ctx, ctx->cursor_x + label_width + ctx->font_size, ctx->cursor_y);
+    write_string(stream, ctx, bacterial_typing.description, FONT_TAG_NORM); // TODO: this should be wrapped
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, bacterial_typing.url, FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, bacterial_typing.typing, FONT_TAG_NORM);
+
+    const size_t seq_type_len = strlen(bacterial_typing.sequence_type);
+    char seq_type[50] = "Sequence type (ST): ";
+    strncat(seq_type, bacterial_typing.sequence_type, seq_type_len);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, seq_type, FONT_TAG_NORM);
+    
 }

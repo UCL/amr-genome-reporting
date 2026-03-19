@@ -31,6 +31,13 @@ void report_data_init(report_data_t *data)
     data->clinical_microbiology.summary_segments = NULL;
     data->clinical_microbiology.summary_segments_size = 0;
     data->clinical_microbiology.summary_segments_capacity = 0;
+    data->clinical_microbiology.bacterial_typing.profile = NULL;
+    data->clinical_microbiology.bacterial_typing.profile_size = 0;
+    data->clinical_microbiology.bacterial_typing.profile_capacity = 0;
+    data->clinical_microbiology.bacterial_typing.description = NULL;
+    data->clinical_microbiology.bacterial_typing.url = NULL;
+    data->clinical_microbiology.bacterial_typing.typing = NULL;
+    data->clinical_microbiology.bacterial_typing.sequence_type = NULL;
 }
 
 void report_data_free(report_data_t *data)
@@ -39,6 +46,10 @@ void report_data_free(report_data_t *data)
     data->clinical_header = NULL;
     data->clinical_header_size = 0;
     data->clinical_header_capacity = 0;
+    free(data->clinical_microbiology.bacterial_typing.profile);
+    data->clinical_microbiology.bacterial_typing.profile = NULL;
+    data->clinical_microbiology.bacterial_typing.profile_size = 0;
+    data->clinical_microbiology.bacterial_typing.profile_capacity = 0;    
 }
 
 static report_summary_font_t parse_font(const char *font)
@@ -108,4 +119,32 @@ void report_data_append_clinical_microbiology_summary(
 
     segment->font = parse_font(font);
     segment->text = strdup(text);
+}
+
+void report_data_append_bacterial_typing_profile(
+    report_data_t *data,
+    const char *gene,
+    const char *allele)
+{
+    if (data->clinical_microbiology.bacterial_typing.profile_size == data->clinical_microbiology.bacterial_typing.profile_capacity)
+    {
+        size_t capacity = data->clinical_microbiology.bacterial_typing.profile_capacity == 0
+            ? 8
+            : data->clinical_microbiology.bacterial_typing.profile_capacity * 2;
+
+        report_bacterial_typing_profile_t *tmp = realloc(
+            data->clinical_microbiology.bacterial_typing.profile,
+            capacity * sizeof(report_bacterial_typing_profile_t));
+        if (!tmp)
+            return;
+
+        data->clinical_microbiology.bacterial_typing.profile = tmp;
+        data->clinical_microbiology.bacterial_typing.profile_capacity = capacity;
+    }
+
+    report_bacterial_typing_profile_t *profile = &data->clinical_microbiology.bacterial_typing.profile[
+        data->clinical_microbiology.bacterial_typing.profile_size++];
+
+    profile->gene = strdup(gene);
+    profile->allele = strdup(allele);
 }

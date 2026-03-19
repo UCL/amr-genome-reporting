@@ -54,6 +54,42 @@
                 "text": "with intrinsic ampicillin resistance. Note multidrug resistance - ESBL producing"
             }
         ],
-        "organism": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
+        "organism": "Klebsiella quasipneumoniae (subspecies similipneumoniae)",
+        "bacterial_typing": {
+            "description": "subspecies characterisation and classification to assess isolate similarity",
+            "url": "https://pubmlst.org/multilocus-sequence-typing",
+            "typing": "MLST (Multilocus sequence typing)",
+            "sequence_type": "1535",
+            "profile": [
+                {
+                    "gene": "gapA",
+                    "allele": "18"
+                },
+                {
+                    "gene": "infB",
+                    "allele": "22"
+                },
+                {
+                    "gene": "mdh",
+                    "allele": "26"
+                },
+                {
+                    "gene": "pgi",
+                    "allele": "61"
+                },
+                {
+                    "gene": "phoE",
+                    "allele": "79"
+                },
+                {
+                    "gene": "rpoB",
+                    "allele": "13"
+                },
+                {
+                    "gene": "tonB",
+                    "allele": "51"
+                }       
+            ]
+        }
     }
 }
