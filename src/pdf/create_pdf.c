@@ -104,8 +104,9 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     set_font_size(&layout, 12.0);
     draw_banner(page, &layout, colour, "Section I: Clinical microbiology");
 
+    colour_t summary_bg = { COLOUR_DARKYELLOW };
     set_font_size(&layout, 10.0);
-    draw_summary(page, &font_cache, &layout, colour, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
+    draw_summary(page, &font_cache, &layout, summary_bg, data->clinical_microbiology.summary_segments, data->clinical_microbiology.summary_segments_size);
 
     draw_organism(page, &layout, &font_cache, data->clinical_microbiology.organism);
 

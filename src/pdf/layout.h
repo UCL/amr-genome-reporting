@@ -30,10 +30,12 @@
 #define FONT_TAG_ITAL "I1"
 
 #define RGB(r,g,b) (r)/255.0, (g)/255.0, (b)/255.0
-#define COLOUR_YELLOW RGB(255,255,153)
+#define COLOUR_YELLOW RGB(253,242,208)
+#define COLOUR_DARKYELLOW RGB(252,233,174)
 #define COLOUR_BLACK RGB(0,0,0)
 #define COLOUR_WHITE RGB(255,255,255)
 #define COLOUR_GREY RGB(192,192,192)
+#define COLOUR_PLATINUM RGB(229,228,226)
 
 typedef struct layout_ctx_s {
     double margin;

@@ -258,7 +258,7 @@ void draw_banner(
 
     // Colours
     pdfioContentSetFillColorDeviceRGB(stream, bgcol.r, bgcol.g, bgcol.b); // Fill
-    pdfioContentSetStrokeColorDeviceRGB(stream, COLOUR_BLACK); // Stroke
+    pdfioContentSetStrokeColorDeviceRGB(stream, COLOUR_PLATINUM); // Stroke
 
     // Draw rectangle
     pdfioContentPathRect(stream, coord.x, coord.y, coord.w, coord.h);
@@ -339,7 +339,7 @@ void draw_summary(
 
     // Colours
     pdfioContentSetFillColorDeviceRGB(stream, bgcol.r, bgcol.g, bgcol.b); // Fill
-    pdfioContentSetStrokeColorDeviceRGB(stream, COLOUR_BLACK); // Stroke
+    pdfioContentSetStrokeColorDeviceRGB(stream, COLOUR_PLATINUM); // Stroke
 
     // Draw rectangle
     pdfioContentPathRect(stream, coord.x, coord.y, coord.w, coord.h);
