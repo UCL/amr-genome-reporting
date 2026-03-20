@@ -65,6 +65,7 @@ void draw_bacterial_typing(
 void draw_determinants(
     pdfio_stream_t *stream,
     layout_ctx_t *ctx,
+    font_cache_t *font_cache,
     report_determinants_t *determinants,
     size_t determinants_size);
 

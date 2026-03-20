@@ -462,17 +462,33 @@ void draw_bacterial_typing(
 void draw_determinants(
     pdfio_stream_t *stream,
     layout_ctx_t *ctx,
+    font_cache_t *font_cache,
     report_determinants_t *determinants,
     size_t determinants_size)
 {
     cursor_to_newline(ctx);
+    cursor_to_newline(ctx);
 
+    const char *label = "Antibiotic resistance determinants: ";
+    double label_width = pdfioContentTextMeasure(font_cache->normal, label, ctx->font_size) + ctx->line_height * 1.2;    
+    write_string(stream, ctx, label, FONT_TAG_BOLD);
+    cursor_to_coordinates(ctx, ctx->cursor_x + label_width, ctx->cursor_y);
+    write_string(stream, ctx, "Genetically determined resistance mechanisms have been identified.", FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, "Genetic variants (homologs) are highlighted *. \"None found\" means no resistance mechanisms have been identified", FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, "in the antimicrobial resistance databases that exist at the time of reporting. It is best practice to review these with the", FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, "phenotypic antibody susceptibility profile https://github.com/klebgenomics/Kleborate", FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    
+    cursor_to_newline(ctx);
+    set_font_size(ctx, 8.0);    
     cursor_to_coordinates(ctx, ctx->margin + 12.0, ctx->cursor_y);
     write_string(stream, ctx, "Drug class", FONT_TAG_BOLD);
     cursor_to_coordinates(ctx, PAGE_WIDTH / 2.0 + 12.0, ctx->cursor_y);
     write_string(stream, ctx, "Acquired genotypes", FONT_TAG_BOLD);
 
-    set_font_size(ctx, 8.0);
     const char *drug;
     const char *acq_gen;
     for (size_t i = 0; i < determinants_size; i++)

@@ -112,7 +112,7 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
 
     draw_bacterial_typing(page, &layout, &font_cache, data->clinical_microbiology.bacterial_typing);
 
-    draw_determinants(page, &layout, data->clinical_microbiology.determinants, data->clinical_microbiology.determinants_size);
+    draw_determinants(page, &layout, &font_cache, data->clinical_microbiology.determinants, data->clinical_microbiology.determinants_size);
     
     pdfioStreamClose(page);
     
