@@ -396,6 +396,21 @@ void write_string(
     pdfioContentTextEnd(stream);
 }
 
+void draw_line(
+    pdfio_stream_t *stream,
+    double from_x,
+    double from_y,
+    double to_x,
+    double to_y,
+    colour_t colour)
+{
+    pdfioContentSetStrokeColorDeviceRGB(stream, colour.r, colour.g, colour.b);
+    pdfioContentPathMoveTo(stream, from_x, from_y);
+    pdfioContentPathLineTo(stream, to_x, to_y);
+    pdfioContentStroke(stream);
+}
+    
+
 void draw_bacterial_typing(
     pdfio_stream_t *stream,
     layout_ctx_t *ctx,
@@ -421,7 +436,27 @@ void draw_bacterial_typing(
     strncat(seq_type, bacterial_typing.sequence_type, seq_type_len);
     cursor_to_newline(ctx);
     write_string(stream, ctx, seq_type, FONT_TAG_NORM);
+    // We go lines back to write the second column with the profile info
+    const char *profile_label = "Profile  ";
+    double profile_label_width = pdfioContentTextMeasure(font_cache->normal, profile_label, ctx->font_size);
+    cursor_to_coordinates(ctx, PAGE_WIDTH / 2.0, ctx->cursor_y + ctx->line_height / 2.0);
+    write_string(stream, ctx, profile_label, FONT_TAG_NORM);
+    colour_t line_col = { COLOUR_PLATINUM };
+    double line_from_x = PAGE_WIDTH / 2.0 + profile_label_width;
+    double line_to_x = PAGE_WIDTH - ctx->margin;
+    cursor_to_coordinates(ctx, line_from_x, ctx->cursor_y + ctx->line_height * 1.2);
+    draw_line(stream, ctx->cursor_x, ctx->cursor_y, line_to_x, ctx->cursor_y, line_col);
+    set_font_size(ctx, 7.0);
+    cursor_to_coordinates(ctx, line_from_x, ctx->cursor_y - ctx->line_height);
+    write_string(stream, ctx, "PLACEHOLDER", FONT_TAG_NORM);
+    cursor_to_coordinates(ctx, line_from_x, ctx->cursor_y - ctx->line_height / 2.5);
+    draw_line(stream, line_from_x, ctx->cursor_y, line_to_x, ctx->cursor_y, line_col);
+    cursor_to_coordinates(ctx, line_from_x, ctx->cursor_y - ctx->line_height);
+    write_string(stream, ctx, "PLACEHOLDER", FONT_TAG_NORM);
+    cursor_to_coordinates(ctx, line_from_x, ctx->cursor_y - ctx->line_height / 2.5);
+    draw_line(stream, line_from_x, ctx->cursor_y, line_to_x, ctx->cursor_y, line_col);
     cursor_to_newline(ctx);
+    set_font_size(ctx, 10.0);
 }
 
 void draw_determinants(
