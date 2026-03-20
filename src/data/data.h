@@ -56,6 +56,19 @@ typedef struct report_determinants_s {
     char *acquired_gen;
 } report_determinants_t;
 
+typedef struct report_capsule_result_s {
+    const char *type;
+    const char *value;
+} report_capsule_result_t;
+
+typedef struct report_capsule_typing_s {
+    char *description;
+    char *url;
+    report_capsule_result_t *results;
+    size_t results_size;
+    size_t results_capacity;
+} report_capsule_typing_t;
+
 typedef struct report_clinical_microbiology_s {
     report_summary_segment_t *summary_segments;
     size_t summary_segments_size;
@@ -65,6 +78,7 @@ typedef struct report_clinical_microbiology_s {
     report_determinants_t *determinants;
     size_t determinants_size;
     size_t determinants_capacity;
+    report_capsule_typing_t capsule_typing;
 } report_clinical_microbiology_t;
 
 typedef struct report_data_s {
@@ -92,5 +106,10 @@ void report_data_append_determinants(
     report_data_t *data,
     const char *drug,
     const char *acquired_gen);
+
+void report_data_append_capsule_typing_result(
+    report_data_t *data,
+    const char *type,
+    const char *value);
 
 #endif /* DATA_H */

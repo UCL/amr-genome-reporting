@@ -69,4 +69,10 @@ void draw_determinants(
     report_determinants_t *determinants,
     size_t determinants_size);
 
+void draw_capsule_typing(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+    report_capsule_typing_t capsule_typing);
+
 #endif /* WRITER_H */

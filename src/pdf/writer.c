@@ -513,3 +513,18 @@ void draw_determinants(
     (void)drug;
     (void)acq_gen;
 }
+
+void draw_capsule_typing(
+    pdfio_stream_t *stream,
+    layout_ctx_t *ctx,
+    font_cache_t *font_cache,
+    report_capsule_typing_t capsule_typing)
+{
+    const char *label = "Capsule typing: ";
+    double label_width = pdfioContentTextMeasure(font_cache->normal, label, ctx->font_size) + ctx->line_height * 1.2;    
+    write_string(stream, ctx, label, FONT_TAG_BOLD);
+    cursor_to_coordinates(ctx, ctx->cursor_x + label_width, ctx->cursor_y);
+    write_string(stream, ctx, capsule_typing.description, FONT_TAG_NORM);
+    cursor_to_newline(ctx);
+    write_string(stream, ctx, capsule_typing.url, FONT_TAG_NORM);
+}

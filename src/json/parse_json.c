@@ -277,6 +277,26 @@ report_data_t extract_data(const cJSON *json)
         report_data_append_determinants(&data, drug->valuestring, acq_gen->valuestring);
     }
 
+    cJSON *capsule_typing = cJSON_GetObjectItemCaseSensitive(clinical_microbiology, "capsule_typing");
+    if (!capsule_typing) {
+        fprintf(stderr, "Missing section capsule_typing\n");
+        return data;
+    }
+    cJSON *capsule_desc = cJSON_GetObjectItemCaseSensitive(capsule_typing, "description");
+    data.clinical_microbiology.capsule_typing.description = capsule_desc->valuestring;
+    cJSON *capsule_url = cJSON_GetObjectItemCaseSensitive(capsule_typing, "url");
+    data.clinical_microbiology.capsule_typing.url = capsule_url->valuestring;
+    cJSON *capsule_res = cJSON_GetObjectItemCaseSensitive(capsule_typing, "results");
+    cJSON *res_type = NULL;
+    cJSON *res_value = NULL;
+    cJSON_ArrayForEach(iterator, capsule_res)
+    {
+        res_type = cJSON_GetObjectItemCaseSensitive(iterator, "type");
+        res_value = cJSON_GetObjectItemCaseSensitive(iterator, "value");
+
+        report_data_append_capsule_typing_result(&data, res_type->valuestring, res_value->valuestring);
+    }
+
 //    cJSON_Delete(header);
     cJSON_Delete(iterator);
 //    cJSON_Delete(label);

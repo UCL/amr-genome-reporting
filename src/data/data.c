@@ -41,6 +41,11 @@ void report_data_init(report_data_t *data)
     data->clinical_microbiology.determinants = NULL;
     data->clinical_microbiology.determinants_size = 0;
     data->clinical_microbiology.determinants_capacity = 0;
+    data->clinical_microbiology.capsule_typing.description = NULL;
+    data->clinical_microbiology.capsule_typing.url = NULL;
+    data->clinical_microbiology.capsule_typing.results = NULL;
+    data->clinical_microbiology.capsule_typing.results_size = 0;
+    data->clinical_microbiology.capsule_typing.results_capacity = 0;
 }
 
 void report_data_free(report_data_t *data)
@@ -57,6 +62,10 @@ void report_data_free(report_data_t *data)
     data->clinical_microbiology.determinants = NULL;
     data->clinical_microbiology.determinants_size = 0;
     data->clinical_microbiology.determinants_capacity = 0;
+    free(data->clinical_microbiology.capsule_typing.results);
+    data->clinical_microbiology.capsule_typing.results = NULL;
+    data->clinical_microbiology.capsule_typing.results_size = 0;
+    data->clinical_microbiology.capsule_typing.results_capacity = 0;
 }
 
 static report_summary_font_t parse_font(const char *font)
@@ -182,4 +191,32 @@ void report_data_append_determinants(
 
     determinants->drug = drug;
     determinants->acquired_gen = acquired_gen;
+}
+
+void report_data_append_capsule_typing_result(
+    report_data_t *data,
+    const char *type,
+    const char *value)
+{
+    if (data->clinical_microbiology.capsule_typing.results_size == data->clinical_microbiology.capsule_typing.results_capacity)
+    {
+        size_t capacity = data->clinical_microbiology.capsule_typing.results_capacity == 0
+            ? 8
+            : data->clinical_microbiology.capsule_typing.results_capacity * 2;
+
+        report_capsule_result_t *tmp = realloc(
+            data->clinical_microbiology.capsule_typing.results,
+            capacity * sizeof(report_capsule_result_t));
+        if (!tmp)
+            return;
+
+        data->clinical_microbiology.capsule_typing.results = tmp;
+        data->clinical_microbiology.capsule_typing.results_capacity = capacity;
+    }
+
+    report_capsule_result_t *results = &data->clinical_microbiology.capsule_typing.results[
+        data->clinical_microbiology.capsule_typing.results_size++];
+
+    results->type = type;
+    results->value = value;
 }

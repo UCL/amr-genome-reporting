@@ -115,6 +115,19 @@ pdfio_file_t *create_pdf_file(const char *filename, const report_data_t *data)
     draw_determinants(page, &layout, &font_cache, data->clinical_microbiology.determinants, data->clinical_microbiology.determinants_size);
     
     pdfioStreamClose(page);
+
+    pdfio_dict_t *dict2 = pdfioDictCreate(pdf);
+    pdfioPageDictAddFont(dict2, FONT_TAG_NORM, font);
+    pdfioPageDictAddFont(dict2, FONT_TAG_BOLD, bold);
+    pdfioPageDictAddFont(dict2, FONT_TAG_ITAL, ital);
+
+    pdfio_stream_t *page2 = pdfioFileCreatePage(pdf, dict2);
+    init_layout_ctx(&layout);
+    cursor_to_newline(&layout);
+    set_font_size(&layout, 10.0);
+    draw_capsule_typing(page2, &layout, &font_cache, data->clinical_microbiology.capsule_typing);
+    
+    pdfioStreamClose(page2);
     
     return pdf;
 }

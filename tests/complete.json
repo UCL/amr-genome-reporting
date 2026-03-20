@@ -144,6 +144,20 @@
                 "drug_class": "  + sulfonamides",
                 "acquired_genotypes": "None found"
             }
-        ]
+        ],
+        "capsule_typing": {
+            "description": "Polysaccharide K and lipopolysaccharide O serotypes as predicted by KL and O genotype",
+            "url": "https://github.com/klebgenomics/Kaptive",
+            "results": [
+                {
+                    "type": "K type",
+                    "value": "K114"
+                },
+                {
+                    "type": "O type",
+                    "value": "O3/O3a"
+                }
+            ]
+        }
     }
 }
