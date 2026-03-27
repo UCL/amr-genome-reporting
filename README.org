@@ -9,14 +9,12 @@ Single-level bacterial genome reporting developed for clinical settings.
 
 - C compiler: GCC (minimum version 9+) or Apple clang (minimum version 9+ on MacOS 10+)
 - GNU Make
-- ZLIB 1.1 or higher
 - Doxygen (for generating documentation)
 
 *** Vendored dependencies
 
 - Unity (v2.6.1)
 - cJSON (v1.7.19)
-- PDFio (v1.6.1)
 
 ** Build
 

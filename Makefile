@@ -55,14 +55,12 @@ PROJECT	:= amr_gen_reporting
 INCLUDES := \
 	-Iinclude \
 	-Isrc \
-	-Ilib/cjson \
-	-Ilib/pdfio
+	-Ilib/cjson
 
 SRC_DIRS := \
 	src/core \
 	src/io \
 	src/json \
-	src/pdf \
 	src/data \
 	src
 
@@ -84,9 +82,7 @@ APP_SRC := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 APP_OBJ := $(patsubst %.c,$(OBJ_DIR)/%.o,$(APP_SRC))
 
 LIB_SRC := \
-	lib/cjson/cJSON.c \
-	$(wildcard lib/pdfio/pdfio-*.c) \
-	lib/pdfio/ttf.c
+	lib/cjson/cJSON.c
 
 LIB_OBJ := \
 	$(patsubst %.c,$(OBJ_DIR)/%.o,$(LIB_SRC))

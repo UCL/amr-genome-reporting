@@ -19,11 +19,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cJSON.h>
-#include <pdfio.h>
 
 #include "io/read_text.h"
 #include "json/parse_json.h"
-#include "pdf/create_pdf.h"
 
 int main(int argc, char **argv)
 {
@@ -71,8 +69,6 @@ int main(int argc, char **argv)
 
   printf("JSON file '%s' is valid\n", filename);
   
-  pdfio_file_t *pdf = create_pdf_file("filename.pdf", &extract);
-
   // 1 = true, 0 = false
-  return (int) pdfioFileClose(pdf);
+  return 0;
 }

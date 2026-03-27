@@ -4,6 +4,3 @@
 [submodule "lib/cjson"]
 	path = lib/cjson
 	url = git@github.com:DaveGamble/cJSON.git
-[submodule "lib/pdfio"]
-	path = lib/pdfio
-	url = git@github.com:michaelrsweet/pdfio.git
