@@ -28,7 +28,8 @@ RM	?= rm -f
 # ====================
 BUILD	?= release # release | debug
 
-BASE_CFLAGS := -std=c18 -Wall -Wextra -Wpedantic
+BASE_CFLAGS := -std=c18 -Wall -Wextra -Wpedantic \
+	-D_POSIX_C_SOURCE=200809L
 BASE_LDFLAGS := -lz
 
 RELEASE_CFLAGS := -O2
@@ -68,6 +69,10 @@ BUILD_DIR := build
 OBJ_DIR   := $(BUILD_DIR)/obj
 BIN_DIR   := $(BUILD_DIR)/bin
 
+BINARY	:= $(PROJECT)
+TARGET	:= $(BIN_DIR)/$(BINARY)
+PREFIX	?= /usr/local
+
 # ====================
 # Documentation
 # ====================
@@ -96,7 +101,7 @@ UNITY_OBJ := $(OBJ_DIR)/lib/unity/src/unity.o
 # ====================
 .PHONY: all clean test docs dirs debug
 
-all: dirs $(BIN_DIR)/$(PROJECT)
+all: dirs $(TARGET)
 
 dirs:
 	mkdir -p $(OBJ_DIR) $(BIN_DIR) $(BUILD_DIR)/test
@@ -109,7 +114,7 @@ $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Production binary (no Unity)
-$(BIN_DIR)/$(PROJECT): $(APP_OBJ) $(LIB_OBJ)
+$(TARGET): $(APP_OBJ) $(LIB_OBJ)
 	$(CC) $^ $(LDFLAGS) -o $@
 
 # ====================
@@ -136,3 +141,10 @@ debug:
 # ====================
 clean:
 	$(RM) -r $(BUILD_DIR)
+
+# ====================
+# Install
+# ====================
+install: $(TARGET)
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(BINARY)

@@ -1,0 +1,24 @@
+---
+package:
+  name: amr_gen_reporting
+  version: "1.0.0"
+
+source:
+  path: ../../..
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - make
+    - {{ compiler('c') }}
+  run: []
+
+outputs:
+  - name: amr_gen_reporting
+    script: build.sh
+
+about:
+  summary: "Single-level bacterial genome reporting developed for clinical settings"
+  license: GPLv3

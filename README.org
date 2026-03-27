@@ -10,6 +10,8 @@ Single-level bacterial genome reporting developed for clinical settings.
 - C compiler: GCC (minimum version 9+) or Apple clang (minimum version 9+ on MacOS 10+)
 - GNU Make
 - Doxygen (for generating documentation)
+- Buildah, Podman, or Docker (for building containers)
+- Conda-Build (for conda packages)
 
 *** Vendored dependencies
 
@@ -48,6 +50,16 @@ Build in debug mode
 #+BEGIN_SRC bash
   make debug
 #+END_SRC
+
+*** Packages
+
+**** Conda
+
+#+BEGIN_SRC bash
+  conda activate base
+  conda-build pkg/conda/recipe
+#+END_SRC
+
 
 * Run
 
