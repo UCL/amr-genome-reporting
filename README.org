@@ -80,6 +80,17 @@ Build with docker cli
   conda-build pkg/conda/recipe
 #+END_SRC
 
+**** Apptainer
+
+Using Lima [[https://lima-vm.io]]. Output in ~/tmp~ as ~$HOME~ mounted as read-only
+in Lima.
+
+#+BEGIN_SRC bash
+  limactl shell apptainer
+  apptainer build /tmp/amr_gen_reporting.sif pkg/apptainer/Apptainer
+  # test with
+  apptainer run /tmp/amr_gen_reporting.sif tests/complete.json
+#+END_SRC
 
 * Run
 

@@ -1,0 +1,38 @@
+Bootstrap: docker
+From: alpine:3.23.3
+
+%labels
+        Author David Guzman
+        Description "amr_gen_reporting built natively with Apptainer from Alpine"
+
+%environment
+        export PATH=/usr/local/bin:$PATH
+
+%post
+        set -eux
+
+        # Install build toolchain
+        apk add --no-cache gcc make musl-dev
+
+        # Create build workspace
+        mkdir -p /build
+
+        # Copy source
+        cp -r /apptainer/. /build/
+
+        # Build and install
+        cd /build
+        make clean
+        make
+        make install PREFIX=/usr/local
+
+        # Remove build dependencies and artifacts
+        apk del gcc make musl-dev
+        rm -rf /build
+        rm -rf /var/cache/apk/*
+
+%files
+        . /apptainer
+
+%runscript
+        exec /usr/local/bin/amr_gen_reporting "$@"
