@@ -53,13 +53,10 @@ endif
 # ====================
 PROJECT	:= amr_gen_reporting
 
-# TODO: use cjson/cJSON.h across code for consistency, remove -Ilib/cjson
 INCLUDES := \
 	-Iinclude \
 	-Isrc \
-	-Ilib \
-	-Ilib/cjson \
-	-Ilib/mustach
+	-Ilib
 
 SRC_DIRS := \
 	src/core \

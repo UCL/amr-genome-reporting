@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <cJSON.h>
+#include <cjson/cJSON.h>
 
 #include "io/read_text.h"
 #include "json/parse_json.h"

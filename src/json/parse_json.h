@@ -18,7 +18,7 @@
 #ifndef PARSE_JSON_H
 #define PARSE_JSON_H
 
-#include <cJSON.h>
+#include <cjson/cJSON.h>
 #include "../data/data.h"
 
 /**
