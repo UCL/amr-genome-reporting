@@ -30,7 +30,7 @@ BUILD	?= release # release | debug
 
 BASE_CFLAGS := -std=c18 -Wall -Wextra -Wpedantic \
 	-D_POSIX_C_SOURCE=200809L
-BASE_LDFLAGS := -lz
+BASE_LDFLAGS :=
 
 RELEASE_CFLAGS := -O2
 RELEASE_LDFLAGS :=

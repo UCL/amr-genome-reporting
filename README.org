@@ -53,6 +53,16 @@ Build in debug mode
 
 *** Packages
 
+**** OCI Container
+
+Build with docker cli
+
+#+BEGIN_SRC bash
+  docker build -f pkg/container/Containerfile -t amr-gen-reporting:1.0 .
+  # test with
+  docker run --rm -v ".:/input" amr-gen-reporting:1.0 /input/tests/complete.json
+#+END_SRC
+
 **** Conda
 
 #+BEGIN_SRC bash

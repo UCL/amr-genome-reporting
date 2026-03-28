@@ -1,0 +1,10 @@
+FROM alpine:3.23.3 as builder
+WORKDIR /build
+COPY . /build
+RUN apk add gcc make musl-dev
+RUN make clean && make && make install PREFIX=/usr/local
+
+FROM alpine:3.23.3
+WORKDIR /app
+COPY --from=builder /usr/local/bin/amr_gen_reporting /app/
+ENTRYPOINT ["./amr_gen_reporting"]
