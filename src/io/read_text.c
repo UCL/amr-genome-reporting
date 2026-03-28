@@ -84,3 +84,20 @@ char *read_text_file(FILE *fp, size_t *out_len)
   free(buffer);
   return NULL;
 }
+
+char *read_template(FILE *fp)
+{
+    if (!fp)
+        return NULL;
+
+    fseek(fp, 0, SEEK_END);
+    size_t file_size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+
+    char *data = malloc(file_size + 1);
+    fread(data, file_size, 1, fp);
+
+    data[file_size] = '\0';
+
+    return data;
+}

@@ -22,11 +22,12 @@
 
 #include "io/read_text.h"
 #include "json/parse_json.h"
+#include "mustach/mustach-cjson.h"
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
-      fprintf(stderr, "Usage: %s [JSON file]\n", argv[0]);
+    if (argc < 3) {
+      fprintf(stderr, "Usage: %s [JSON file] [template]\n", argv[0]);
       return 1;
     }
 
@@ -39,12 +40,25 @@ int main(int argc, char **argv)
     return 2;
   }
 
-  size_t out_len = 0;
-  char *json_text = read_text_file(fp, &out_len);
-  fclose(fp);
+  const char *template = argv[2];
+  FILE *tf = fopen(template, "rb");
+  if (!tf) {
+      perror(template);
+      return 2;
+  }
 
+  size_t json_len = 0;
+  char *json_text = read_text_file(fp, &json_len);
+  fclose(fp);
   if (!json_text) {
       fprintf(stderr, "Failed to read input file\n");
+      return 3;
+  }
+
+  char *template_text = read_template(tf);
+  fclose(tf);
+  if (!template_text) {
+      fprintf(stderr, "Failed to read template\n");
       return 3;
   }
 
@@ -58,17 +72,30 @@ int main(int argc, char **argv)
   }
 
   json_status_t status = validate_json_structure(json);
+  if (status != OK) {
+      fprintf(stderr, "JSON file '%s' is invalid\n", filename);
+      return 5; // TODO replace with proper error code enum value
+  }
 
-  report_data_t extract = extract_data(json);
+  char *output;
+  size_t out_len = 0;
+
+  int res = mustach_cJSON_mem(
+      template_text,
+      0,
+      json,
+      Mustach_With_AllExtensions,
+      &output,
+      &out_len);
+
+  if (res == MUSTACH_OK)
+      fprintf(stdout, "%s\n", output);
 
   //cJSON_Delete(json);
-  free(json_text);
-
-  if (status != OK)
-    return 5; // TODO replace with proper error code enum value
-
-  printf("JSON file '%s' is valid\n", filename);
   
+  free(json_text);
+  free(template_text);
+    
   // 1 = true, 0 = false
   return 0;
 }

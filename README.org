@@ -17,6 +17,7 @@ Single-level bacterial genome reporting developed for clinical settings.
 
 - Unity (v2.6.1)
 - cJSON (v1.7.19)
+- Mustach (v1.2.10)
 
 ** Build
 
@@ -97,7 +98,7 @@ in Lima.
 After compilation run the application against the provided test file.
 
 #+BEGIN_SRC bash
-  ./build/bin/amr_gen_reporting tests/complete.json
+  ./build/bin/amr_gen_reporting tests/complete.json tests/template.txt
 #+END_SRC
 
 * Copyright

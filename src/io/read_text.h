@@ -38,4 +38,6 @@
  */
 char *read_text_file(FILE *fp, size_t *out_len);
 
+char *read_template(FILE *fp);
+
 #endif /* READ_TEXT_H */
