@@ -99,7 +99,7 @@ UNITY_OBJ := $(OBJ_DIR)/lib/unity/src/unity.o
 # ====================
 # Targets
 # ====================
-.PHONY: all clean test docs dirs debug
+.PHONY: all clean test docs dirs debug conda container
 
 all: dirs $(TARGET)
 
@@ -115,6 +115,7 @@ $(OBJ_DIR)/%.o: %.c
 
 # Production binary (no Unity)
 $(TARGET): $(APP_OBJ) $(LIB_OBJ)
+	mkdir -p $(dir $@)
 	$(CC) $^ $(LDFLAGS) -o $@
 
 # ====================
@@ -148,3 +149,19 @@ clean:
 install: $(TARGET)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(BINARY)
+
+# ====================
+# Container
+# ====================
+container:
+	docker build -f pkg/container/Containerfile -t amr-gen-reporting:1.0 .
+
+# ====================
+# Conda
+# ====================
+conda:
+	source ~/.bash_profile && \
+	conda activate && \
+	conda-build pkg/conda/recipe && \
+	conda deactivate
+

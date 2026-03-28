@@ -53,6 +53,16 @@ Build in debug mode
 
 *** Packages
 
+Build packages
+
+#+BEGIN_SRC bash
+  make container # assumes docker, lima, etc. daemon is running
+
+  make conda # assumes conda init has already been executed
+#+END_SRC
+
+To build the package manually:
+
 **** OCI Container
 
 Build with docker cli
