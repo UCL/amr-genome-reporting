@@ -52,8 +52,8 @@ typedef struct report_bacterial_typing_s {
 } report_bacterial_typing_t;
 
 typedef struct report_determinants_s {
-    char *drug;
-    char *acquired_gen;
+    const char *drug;
+    const char *acquired_gen;
 } report_determinants_t;
 
 typedef struct report_capsule_result_s {
