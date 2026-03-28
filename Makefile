@@ -53,10 +53,13 @@ endif
 # ====================
 PROJECT	:= amr_gen_reporting
 
+# TODO: use cjson/cJSON.h across code for consistency, remove -Ilib/cjson
 INCLUDES := \
 	-Iinclude \
 	-Isrc \
-	-Ilib/cjson
+	-Ilib \
+	-Ilib/cjson \
+	-Ilib/mustach
 
 SRC_DIRS := \
 	src/core \
@@ -87,7 +90,10 @@ APP_SRC := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 APP_OBJ := $(patsubst %.c,$(OBJ_DIR)/%.o,$(APP_SRC))
 
 LIB_SRC := \
-	lib/cjson/cJSON.c
+	lib/cjson/cJSON.c \
+	lib/mustach/mustach.c \
+	lib/mustach/mustach-cjson.c \
+	lib/mustach/mustach-wrap.c
 
 LIB_OBJ := \
 	$(patsubst %.c,$(OBJ_DIR)/%.o,$(LIB_SRC))
