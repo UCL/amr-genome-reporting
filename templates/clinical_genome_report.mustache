@@ -191,7 +191,115 @@
         <h2 class="section-title public_health" style="margin-top: 2rem;">
             Section 2: Public health and Infection prevention and control
         </h2>
+        <div class="summary-box public_health list">
+            <item>
+                <label>Summary</label>
+                <value>
+                    {{#public_health.summary}}
+                        <span style="font-style: {{font}};">{{text}}</span>
+                    {{/public_health.summary}}
+                </value>
+            </item>
+        </div>
 
+        <div class="content typing">
+            <div class="list">
+                <item>
+                    <label>Bacterial typing</label>
+                    <value class="description">
+                        {{public_health.bacterial_typing.description}}
+                        <a href="{{public_health.bacterial_typing.url}}" target="_blank">
+                            <span style="white-space: nowrap">{{public_health.bacterial_typing.url}}</span>
+                        </a>
+                    </value>
+                </item>
+            </div>
+
+            <div class="info-grid">
+                <div class="st">
+                    {{public_health.bacterial_typing.typing}}<br />
+                    Sequence type (ST): {{public_health.bacterial_typing.sequence_type}}
+                </div>
+                <div class="profile">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="profile_heading">Profile:</td>
+                            {{#public_health.bacterial_typing.profile}}
+                                <th>{{gene}}</th>
+                            {{/public_health.bacterial_typing.profile}}
+                        </tr>
+                        <tr>
+                            {{#public_health.bacterial_typing.profile}}
+                                <td>{{allele}}</td>
+                            {{/public_health.bacterial_typing.profile}}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                {{#public_health.lincodes}}
+                    <div class="list">
+                        <item>
+                            <label class="discrete">{{label}}</label>
+                            <value>{{value}}</value>
+                        </item>
+                    </div>
+                {{/public_health.lincodes}}
+            </div>
+
+            <div class="list">
+                <item>
+                    <label class="discrete">LIN (Life Identification Number)</label>
+                    <value>{{public_health.lin}}</value>
+                </item>
+            </div>
+        </div>
+
+        <div class="content plasmid">
+            <div class="list">
+                <item>
+                    <label>Plasmid Inc typing</label>
+                    <value class="description">
+                        {{public_health.plasmid.description}}
+                        <a href="{{public_health.plasmid.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{public_health.plasmid.url}}
+                            </span>
+                        </a>
+                    </value>
+                </item>
+                <item>
+                    <label class="discrete">Plasmid type</label>
+                    <value>{{public_health.plasmid.type}}</value>
+                </item>
+            </div>
+        </div>
+
+        <div class="content outbreak">
+            <div class="list">
+                <item>
+                    <label>Outbreak analysis</label>
+                    <value class="description">
+                        {{public_health.outbreak.description}}
+                        <a href="{{public_health.outbreak.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{public_health.outbreak.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+            <p class="heading">Allele based:</p>
+            <div class="list">
+                <item>
+                    <label class="discrete">LIN (Life Identification Number)</label>
+                    <value>{{public_health.outbreak.lin}}</value>
+                </item>
+                <p class="note" style="margin-top:0">(based on cgMLST scheme with 629 genes)</p>
+            </div>
+        </div>
+        
     </section>
     
 </body>
