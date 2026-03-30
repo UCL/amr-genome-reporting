@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+ {{>templates/style.css}}
+</style>
+<title>Clinical Genome Report: id-{{id}}</title>
+</head>
+
+<body>
+
+    <section class="report">
+        <h1 class="clinical">CLINICAL GENOME REPORT</h1>
+        <div class="info-grid">
+            <div class="list bordered">
+              {{#header}}
+                <item>
+                    <label>{{ label }}</label>
+                    <value>{{ value }}</value>
+                </item>
+              {{/header}}
+            </div>
+        </div>
+
+        <h2 class="section-title clinical">Section 1: Clinical microbiology</h2>
+        <div class="summary-box clinical list">
+            <item>
+                <label>Summary</label>
+                <value>
+                    {{#clinical_microbiology.summary}}
+                        <span style="font-style: {{font}};">{{text}}</span>
+                    {{/clinical_microbiology.summary}}
+                </value>
+            </item>
+        </div>
+
+        <div class="summary-box organism list">
+            <item>
+                <label>Organism</label>
+                <value style="font-style: italic;">{{clinical_microbiology.organism}}</value>
+            </item>
+        </div>
+
+        <div class="content typing">
+            <div class="list">
+                <item>
+                    <label>Bacterial typing</label>
+                    <value class="description">
+                        {{clinical_microbiology.bacterial_typing.description}}
+                        <a href="{{clinical_microbiology.bacterial_typing.url}}" target="_blank">
+                            <span style="white-space: nowrap">{{clinical_microbiology.bacterial_typing.url}}</span>
+                        </a>
+                    </value>
+                </item>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="st">
+                {{clinical_microbiology.bacterial_typing.typing}}<br />
+                Sequence type (ST): {{clinical_microbiology.bacterial_typing.sequence_type}}
+            </div>
+        </div>
+
+        <div class="content amr">
+            <div class="list">
+                <item>
+                    <label>Antibiotic resistance determinants</label>
+                    <value class="description">
+                        Genetically determined resistance mechanisms have been identified. 
+                        Genetic variants (homologs) are highlighted *. "None found" means no resistance mechanisms 
+                        have been identified in the antimicrobial resistance databases that exist at the time of 
+                        reporting, correlate with phenotype. It is best practice to review these with the phenotypic 
+                        antibiotic susceptibility profile. 
+                        <a href="https://github.com/klebgenomics/Kleborate" target="_blank">
+                            <span style="white-space:nowrap">https://github.com/klebgenomics/Kleborate</span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+
+            <div class="scrollable">
+                <table class="amr">
+                    <tr>
+                        <th>Drug class</th>
+                        <th>Acquired genotypes</th>
+                    </tr>
+                    {{#clinical_microbiology.antibiotic_resistance_determinants}}
+                        <tr>
+                            <td>{{drug_class}}</td>
+                            <td>{{acquired_genotypes}}</td>
+                        </tr>
+                    {{/clinical_microbiology.antibiotic_resistance_determinants}}
+                </table>
+            </div>
+        </div>
+
+        <div class="content capsule">
+            <div class="list">
+                <item>
+                    <label>Capsule and O typing</label>
+                    <value class="description">
+                        {{clinical_microbiology.capsule_typing.description}}
+                        <a href="{{clinical_microbiology.capsule_typing.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{clinical_microbiology.capsule_typing.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+        </div>
+
+    </section>
+    
+</body>
+</html>

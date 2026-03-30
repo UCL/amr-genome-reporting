@@ -1,0 +1,248 @@
+@page {
+	size: A4;
+	margin: 20px;
+}
+
+.report {
+	font-family: Arial, sans-serif;
+	background: #fff;
+	max-width: 800px;
+	margin: 20px auto;
+}
+
+.report h1 {
+	font-weight: 300;
+	text-align: center;
+	margin: 0 0 0.5rem 0;
+	padding: 10px;
+	font-size: 20px;
+	border: 1px solid #e7e5e5;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+h1.clinical,
+h2.clinical {
+	background: #fff2cc;
+}
+
+h3 {
+	font-size: 0.9rem;
+	margin-left: 1rem;
+}
+
+h1.technical {
+	background: #bfbfbf;
+}
+
+h2.public_health {
+	background: #bdd7ee
+}
+
+.info-grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 0.5rem;
+}
+
+.info-grid>div {
+	flex: 1 1 auto;
+	padding: 0 0.5rem;
+
+}
+
+.info-grid>div.bordered {
+	border: 1px solid #e7e6e6
+}
+
+.section-title {
+	padding: 6px 12px;
+	margin: 0;
+	border: 1px solid #e7e5e5;
+	font-size: 18px;
+	text-align: center;
+	margin-bottom: 1rem
+}
+
+div.scrollable {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+div.summary-box,
+div.content {
+	margin: 0 0 0.2rem 0;
+	padding: 0;
+	border: 1px solid #e7e6e6;
+}
+
+div.summary-box {
+	line-height: 1.3;
+}
+
+div.list {
+	padding: 0.2rem 0.5rem;
+}
+
+div.captioned_image {
+	display: flex;
+	flex: 1 1 40%;
+	align-items: flex-end;
+	gap: 5px;
+}
+
+div.captioned_image p.caption {
+	font-size: 0.8rem;
+	font-style: italic;
+	max-width: 150px;
+}
+
+div.captioned_image img {
+	display: block;
+}
+
+.summary-box.clinical {
+	background: #ffe9a6;
+}
+
+.summary-box.public_health {
+	background: #b6cfe6;
+}
+
+.summary-box.technical {
+	background: #dfdfdf;
+}
+
+div.typing {
+	margin-top: 0.5rem
+}
+
+div.st {
+	margin-top: 1rem;
+	border: 0;
+	line-height: 1.3;
+}
+
+div.profile {
+	margin-top: 1rem;
+	border: 0
+}
+
+div.profile td.profile_heading {
+	font-size: 16px;
+	padding-right: 0.5rem;
+	border-bottom: 0 !important;
+}
+
+div.profile table {
+	table-layout: fixed;
+}
+
+div.profile table tr th {
+	text-align: center;
+	font-size: 0.8rem;
+	font-weight: 300;
+	border-top: 1px solid #d5d7d9;
+	border-bottom: 1px solid #d5d7d9;
+	width: 2.5rem;
+}
+
+div.profile table tr td {
+	text-align: center;
+	font-size: 0.8rem;
+	border-bottom: 1px solid #d5d7d9;
+}
+
+div.list>item {
+	display: block;
+	margin: 0.2rem 0;
+}
+
+div.list>item>label {
+	font-weight: bold;
+}
+
+div.list>item>label:after {
+	content: ":\00A0";
+}
+
+value.description {
+	font-size: 0.9rem
+}
+
+p {
+	padding-left: 0.5rem;
+}
+
+p.note,
+span.note,
+ul.note {
+	font-size: 0.8rem
+}
+
+span.key {
+	font-family: monospace;
+	font-weight: 600;
+	background: #f3f4f5;
+	color: #ba4083;
+	border: 1px solid #d1d5da;
+	padding: 0 0.2rem;
+}
+
+table.amr {
+	width: 98%;
+	margin: auto;
+	text-align: left;
+	border: 1px dashed #afafaf;
+	border-collapse: collapse;
+}
+
+table.amr th,
+table.amr td {
+	font-size: 0.8rem;
+	border: 1px dashed #afafaf;
+	padding: 5px;
+}
+
+table.isolates {
+	font-size: 0.8rem;
+}
+
+table.isolates tr.this_isolate td {
+	background: #ddd
+}
+
+p.cluster_summary {
+	width: 98%;
+	margin: auto;
+	font-size: 0.8rem;
+}
+
+p.heading {
+	font-size: 0.9rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+label.discrete {
+	font-weight: 300 !important;
+}
+
+value.critical {
+	color: #f00
+}
+
+table.qc td.label {
+	padding-right: 4rem;
+}
+
+@media (max-width: 600px) {
+	.info-grid {
+		display: block
+	}
+	.info-grid div:not(:first-child) {
+		margin-top: 12px;
+	}
+
+}
