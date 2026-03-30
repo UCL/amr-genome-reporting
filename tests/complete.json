@@ -159,6 +159,35 @@
                     "value": "O3/O3a"
                 }
             ]
+        },
+        "virulence_determinants": {
+            "description": "Factors that may lead to increased ability to cause invasive disease",
+            "url": "https://github.com/klebgenomics/Kleborate",
+            "virulence_score": "1",
+            "acquired_siderophores": [
+                {
+                    "type": "Aerobactin ST",
+                    "value": "None"
+                },
+                {
+                    "type": "Salmochelin ST",
+                    "value": "None"
+                },
+                {
+                    "type": "Yersiniabactin ST",
+                    "value": "378-1LV"
+                }
+            ],
+            "other_factors": [
+                {
+                    "type": "Colibactin ST",
+                    "value": "None"
+                },
+                {
+                    "type": "Hypermucoidy",
+                    "value": "None"
+                }
+            ]
         }
     }
 }

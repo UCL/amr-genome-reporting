@@ -2,9 +2,12 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="templates/style.css" />
+<!--
 <style>
  {{>templates/style.css}}
 </style>
+-->
 <title>Clinical Genome Report: id-{{id}}</title>
 </head>
 
@@ -54,12 +57,27 @@
                     </value>
                 </item>
             </div>
-        </div>
 
-        <div class="info-grid">
-            <div class="st">
-                {{clinical_microbiology.bacterial_typing.typing}}<br />
+            <div class="info-grid">
+                <div class="st">
+                    {{clinical_microbiology.bacterial_typing.typing}}<br />
                 Sequence type (ST): {{clinical_microbiology.bacterial_typing.sequence_type}}
+                </div>
+                <div class="profile">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="profile_heading">Profile:</td>
+                            {{#clinical_microbiology.bacterial_typing.profile}}
+                                <th>{{gene}}</th>
+                            {{/clinical_microbiology.bacterial_typing.profile}}
+                        </tr>
+                        <tr>
+                            {{#clinical_microbiology.bacterial_typing.profile}}
+                                <td>{{allele}}</td>
+                            {{/clinical_microbiology.bacterial_typing.profile}}
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -110,7 +128,69 @@
                     </value>
                 </item>
             </div>
+            <div class="info-grid">
+                {{#clinical_microbiology.capsule_typing.results}}
+                    <div class="list">
+                        <item>
+                            <label class="discrete">
+                                <em>{{type}}</em>
+                            </label>
+                            <value>
+                                <em>{{value}}</em>
+                            </value>
+                        </item>
+                    </div>
+                {{/clinical_microbiology.capsule_typing.results}}
+            </div>
         </div>
+
+        <div class="content virulence">
+            <div class="list">
+                <item>
+                    <label>Virulence factors</label>
+                    <value>
+                        {{clinical_microbiology.virulence_determinants.description}}
+                        <a href="{{clinical_microbiology.virulence_determinants.url}}" target="_blank">
+                            <span style="white-space:nowrap">
+                                {{clinical_microbiology.virulence_determinants.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+                <div class="list">
+                    <item>
+                        <label class="discrete">Virulence score</label>
+                        <value>
+                            {{clinical_microbiology.virulence_determinants.virulence_score}}
+                        </value>
+                    </item>
+                </div>
+                <div class="info-grid">
+                    <div class="list">
+                        <item><label>Acquired siderophores</label></item>
+                        {{#clinical_microbiology.virulence_determinants.acquired_siderophores}}
+                            <item>
+                                <label class="discrete">{{type}}</label>
+                                <value>{{value}}</value>
+                            </item>
+                        {{/clinical_microbiology.virulence_determinants.acquired_siderophores}}
+                    </div>
+                    <div class="list">
+                        <item><label>Other factors</label></item>
+                        {{#clinical_microbiology.virulence_determinants.other_factors}}
+                            <item>
+                                <label class="discrete">{{type}}</label>
+                                <value>{{value}}</value>
+                            </item>
+                        {{/clinical_microbiology.virulence_determinants.other_factors}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title public_health" style="margin-top: 2rem;">
+            Section 2: Public health and Infection prevention and control
+        </h2>
 
     </section>
     
