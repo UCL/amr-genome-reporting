@@ -246,21 +246,21 @@ table.qc td.label {
 	padding-right: 4rem;
 }
 
-table.contig {
+table.zebra {
     margin: 10px;
     font-size: 0.8rem;
     border-collapse: collapse;
 }
 
-table.contig tr td {
+table.zebra tr td {
     padding: 0.2rem;
 }
 
-table.contig tr:nth-child(odd):has(td) {
+table.zebra tr:nth-child(odd):has(td) {
     background-color: #eee;
 }
 
-table.contig tr:has(td) {
+table.zebra tr:has(td) {
     border-top: 1px solid #999;
 }
 
