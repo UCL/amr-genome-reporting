@@ -56,6 +56,15 @@ h2.public_health {
 	border: 1px solid #e7e6e6
 }
 
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-item-50pc {
+    width: 50%;
+}
+
 .section-title {
 	padding: 6px 12px;
 	margin: 0;
@@ -235,6 +244,24 @@ value.critical {
 
 table.qc td.label {
 	padding-right: 4rem;
+}
+
+table.contig {
+    margin: 10px;
+    font-size: 0.8rem;
+    border-collapse: collapse;
+}
+
+table.contig tr td {
+    padding: 0.2rem;
+}
+
+table.contig tr:nth-child(odd):has(td) {
+    background-color: #eee;
+}
+
+table.contig tr:has(td) {
+    border-top: 1px solid #999;
 }
 
 @media (max-width: 600px) {

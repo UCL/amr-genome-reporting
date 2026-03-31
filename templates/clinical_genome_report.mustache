@@ -16,9 +16,9 @@
     <section class="report">
         <h1 class="clinical">CLINICAL GENOME REPORT</h1>
         <div class="info-grid">
-            <div class="list bordered">
+            <div class="list bordered flex">
               {{#header}}
-                <item>
+                <item class="flex-item-50pc">
                     <label>{{ label }}</label>
                     <value>{{ value }}</value>
                 </item>
@@ -274,6 +274,25 @@
                     <value>{{public_health.plasmid.type}}</value>
                 </item>
             </div>
+
+            <table class="contig">
+                <tr>
+                    <th>Contig of deduced plasmid</th>
+                    <th>Contig generated (linear or circular)</th>
+                    <th>Contig length (in bp)</th>
+                    <th>Plasmid Inc typing</th>
+                    <th>AMR determinants found on this contig</th>
+                </tr>
+                {{#public_health.plasmid.contig_info}}
+                    <tr>
+                        <td>{{contig_deduced}}</td>
+                        <td>{{contig_generated}}</td>
+                        <td>{{contig_length}}</td>
+                        <td>{{inc_typing}}</td>
+                        <td>{{amr_determinants}}</td>
+                    </tr>
+                {{/public_health.plasmid.contig_info}}
+            </table>
         </div>
 
         <div class="content outbreak">

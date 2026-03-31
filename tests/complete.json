@@ -12,28 +12,28 @@
             "value": "Case 1"
         },
         {
-            "label": "Isolate/laboratory identifier",
-            "value": "K1"
-        },
-        {
-            "label": "Date of isolation",
-            "value": "16/05/2023"
-        },
-        {
-            "label": "Location",
-            "value": "Fajara, The Gambia"
-        },
-        {
             "label": "Source type",
             "value": "Human"
+        },
+        {
+            "label": "Isolate/laboratory identifier",
+            "value": "K1"
         },
         {
             "label": "Host tissue sampled",
             "value": "Blood"
         },
         {
+            "label": "Date of isolation",
+            "value": "16/05/2023"
+        },
+        {
             "label": "Accession number",
             "value": "ERR2693301"
+        },
+        {
+            "label": "Location",
+            "value": "Fajara, The Gambia"
         },
         {
             "label": "Genome report date",
@@ -255,7 +255,23 @@
         "plasmid": {
             "description": "Long read data is expected to allow reconstruction of most plasmid sequences. Short read data may yield partial plasmid sequences and prevent detection of whole plasmid sequence.",
             "url": "https://cge.food.dtu.dk/services/PlasmidFinder/",
-            "type": "Col440I, IncFIB(K), IncFII(K)"
+            "type": "Col440I, IncFIB(K), IncFII(K)",
+            "contig_info": [
+                {
+                    "contig_deduced": "Contig no. 1",
+                    "contig_generated": "",
+                    "contig_length": "",
+                    "inc_typing": "IncFIB(K)",
+                    "amr_determinants": "OXA-48"
+                },
+                {
+                    "contig_deduced": "Contig no. 2",
+                    "contig_generated": "",
+                    "contig_length": "",
+                    "inc_typing": "Col440I",
+                    "amr_determinants": "NDM-1, BlaTEM-1"
+                }
+            ]
         },
         "outbreak": {
             "description": "identifying isolates that are genetically similar and maybe part of a transmission chain",
