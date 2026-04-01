@@ -95,10 +95,22 @@ in Lima.
 
 * Run
 
-After compilation run the application against the provided test file.
+After compilation run the application against the provided test template.
 
 #+BEGIN_SRC bash
-  ./build/bin/amr_gen_reporting tests/complete.json tests/template.txt
+  ./build/bin/amr_gen_reporting tests/clinical.json tests/template.txt
+#+END_SRC
+
+To run the clinical genome report template against a JSON file.
+
+#+BEGIN_SRC bash
+  ./build/bin/amr_gen_reporting tests/clinical.json templates/clinical_genome_report.mustache
+#+END_SRC
+
+To run the technical genome report template against a JSON file.
+
+#+BEGIN_SRC bash
+  ./build/bin/amr_gen_reporting tests/technical.json templates/technical_genome_report.mustache
 #+END_SRC
 
 * Copyright

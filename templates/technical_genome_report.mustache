@@ -26,5 +26,293 @@
             </div>
         </div>
 
+        <div class="summary-box technical list">
+            <item>
+                <label>Summary</label>
+                <value>
+                    {{#summary}}
+                        <span style="font-style: {{font}};">{{text}}</span>
+                    {{/summary}}
+                </value>
+            </item>
+        </div>
+
+        <div class="summary-box organism list">
+		    <item>
+                <label>Organism</label>
+                <value>
+                    <em>{{organism.species}}</em>. <em>Species match: {{organism.species_match}}</em>
+                </value>
+            </item>
+        </div>
+
+        <div class="content amr">
+            <div class="list">
+                <item>
+                    <label>Antibiotic resistance determinants</label>
+                    <value class="description">
+                        Resistance determinants identified through {{kleborate.vc}}. Only determinants with &gt;90% coverage
+                        and &gt;90% identity shown, also those with imprecise protein matches or reduced coverage will be
+                        flagged. Genetic variants (homologs) are highlighted *. "None found" means no resistance mechanisms
+                        have been identified in the antimicrobial resistance databases that exist at the time of reporting,
+                        correlate with phenotype. &dagger; Macrolides and tetracycline lack breakpoints as not recommended
+                        for therapy, resistance determinants included here. It is best practice to review these with the
+                        phenotypic antibiotic susceptibility profile.
+                        <a href="https://github.com/klebgenomics/Kleborate" target="_blank">
+		                    <span style="white-space:nowrap">https://github.com/klebgenomics/Kleborate</span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+
+            <div class="scrollable">
+                <table class="amr">
+                    <tr>
+                        <th>Drug class</th>
+                        <th>Acquired genotypes</th>
+                    </tr>
+                    {{#antibiotic_resistance_determinants}}
+                        <tr>
+                            <td>{{{drug_class}}}</td>
+                            <td>{{acquired_genotypes}}</td>
+                        </tr>
+                    {{/antibiotic_resistance_determinants}}
+                </table>
+            </div>
+        </div>
+
+        <div class="content typing">
+            <div class="list">
+                <item>
+                    <label>Bacterial typing</label>
+                    <value class="description">{{bacterial_typing.description}}</value>
+                </item>
+            </div>
+            <div class="info-grid">
+                <div class="st">
+                    {{bacterial_typing.typing}}<br />
+                    Sequence type (ST): {{bacterial_typing.sequence_type}}
+                </div>
+                <div class="profile">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="profile_heading">Profile:</td>
+                            {{#bacterial_typing.profile}}
+                                <th>{{gene}}</th>
+                            {{/bacterial_typing.profile}}
+                        </tr>
+                        <tr>
+                            {{#bacterial_typing.profile}}
+                                <td>{{allele}}</td>
+                            {{/bacterial_typing.profile}}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="info-grid">
+                <div class="list">
+                    <item>
+                        <label class="discrete">Phylogroup</label>
+                        <value>{{bacterial_typing.phylogroup}}</value>
+                    </item>
+                </div>
+                <div class="list">
+                    <item>
+                        <label class="discrete">Sublineage</label>
+                        <value>{{bacterial_typing.sublineage}}</value>
+                    </item>
+                </div>
+                <div class="list">
+                    <item>
+                        <label class="discrete">Clonal group</label>
+                        <value>{{bacterial_typing.clonal_group}}</value>
+                    </item>
+                </div>
+            </div>
+            <div class="list">
+                <item>
+                    <label class="discrete">LIN (Life Identification Number)</label>
+                    <value>{{bacterial_typing.lin}}</value>
+                </item>
+            </div>
+        </div>
+
+        <div class="content capsule">
+            <div class="list">
+                <item>
+                    <label>Capsule and O typing</label>
+                    <value class="description">
+                        {{capsule_typing.description}}
+                        <a href="{{capsule_typing.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{capsule_typing.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+            <div class="info-grid">
+                {{#capsule_typing.results}}
+                    <div class="list">
+                        <item>
+                            <label class="discrete">
+                                <em>{{type}}</em>
+                            </label>
+                            <value>
+                                <em>{{value}}</em>
+                            </value>
+                        </item>
+                    </div>
+                {{/capsule_typing.results}}
+            </div>
+        </div>
+
+        <div class="content virulence">
+            <div class="list">
+                <item>
+                    <label>Hypervirulence factors</label>
+                    <value>
+                        {{virulence_determinants.description}}
+                        <a href="{{virulence_determinants.url}}" target="_blank">
+                            <span style="white-space:nowrap">
+                                {{virulence_determinants.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+                <div class="list">
+                    <item>
+                        <label class="discrete">Virulence score</label>
+                        <value>
+                            {{virulence_determinants.virulence_score}}
+                        </value>
+                    </item>
+                </div>
+                <div class="info-grid">
+                    <div class="list">
+                        <item><label>Acquired siderophores</label></item>
+                        {{#virulence_determinants.acquired_siderophores}}
+                            <item>
+                                <label class="discrete">{{type}}</label>
+                                <value>{{value}}</value>
+                            </item>
+                        {{/virulence_determinants.acquired_siderophores}}
+                    </div>
+                    <div class="list">
+                        <item><label>Other factors</label></item>
+                        {{#virulence_determinants.other_factors}}
+                            <item>
+                                <label class="discrete">{{type}}</label>
+                                <value>{{value}}</value>
+                            </item>
+                        {{/virulence_determinants.other_factors}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content plasmid">
+            <div class="list">
+                <item>
+                    <label>Plasmid Inc typing</label>
+                    <value class="description">
+                        {{plasmid.description}}
+                        <a href="{{plasmid.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{plasmid.url}}
+                            </span>
+                        </a>
+                    </value>
+                </item>
+                <item>
+                    <label class="discrete">Plasmid type</label>
+                    <value>
+                        {{#plasmid.type}}
+                            <span>{{value}} ({{locus_identity}} locus identity). </span>
+                        {{/plasmid.type}}
+                    </value>
+                </item>
+            </div>
+        </div>
+
+        <div class="content outbreak">
+            <div class="list">
+                <item>
+                    <label>Outbreak analysis</label>
+                    <value class="description">
+                        {{outbreak.description}}
+                        <a href="{{outbreak.url}}" target="_blank">
+                            <span style="white-space: nowrap">
+                                {{outbreak.url}}
+                            </span>
+                        </a>.
+                    </value>
+                </item>
+            </div>
+            <p class="heading">Allele based:</p>
+            <div class="list">
+                <item>
+                    <label class="discrete">LIN (Life Identification Number)</label>
+                    <value>{{outbreak.lin}}</value>
+                </item>
+                <p class="note" style="margin-top:0">(based on cgMLST scheme with 629 genes)</p>
+            </div>
+            <table class="zebra">
+                <tr>
+                    <th>id</th>
+                    <th>isolate</th>
+                    <th>country</th>
+                    <th>year</th>
+                    <th>LINcode</th>
+                </tr>
+                {{#outbreak.isolates}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{isolate}}</td>
+                        <td>{{country}}</td>
+                        <td>{{year}}</td>
+                        <td>{{lincode}}</td>
+                    </tr>
+                {{/outbreak.isolates}}
+            </table>
+            <p class="note">
+                Most isolates with identical LIN codes (all 10 thresholds) have &lt;100 and often &lt;5
+                single nucleotide differences, but further single nucleotide analysis may be required for
+                these isolates in cluster/outbreak investigations.
+            </p>
+        </div>        
+
+        <div class="content qc">
+            <div class="list">
+                <item>
+                    <label>QC status</label>
+                    <value class="description">based on {{quality_control.criteria_by_institution}} criteria.</value>
+                </item>
+                <item>
+                    <label>Genome quality</label>
+                    <value>{{quality_control.genome_quality}}</value>
+                </item>
+
+                <table class="qc">
+                    <tr>
+                        <td class="label">Species match:</td>
+                        <td>{{quality_control.species_match}} <span class="note">[determined with Kleborate]</span></td>
+                    </tr>
+                    <tr>
+                        <td>Genome size:</td>
+                        <td>{{quality_control.genome_size}} bp <span class="note">[accepted criteria 4,969,898; 6,132,846]</span></td>
+                    </tr>
+                    <tr>
+                        <td>Contigs:</td>
+                        <td>{{quality_control.contigs}} <span class="note">[accepted criteria <500]</span></td>
+                    </tr>
+                    <tr>
+                        <td>%GC content:</td>
+                        <td>{{quality_control.gc_content}} <span class="note">[accepted criteria 56.35-57.98]</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
     </section>
 </body>
