@@ -52,277 +52,237 @@
             "value": "Kleborate v2.3.2 analysis on 13/03.24"
         }
     ],
-    "clinical_microbiology": {
-        "summary": [
-            {
-                "font": "italic",
-                "text": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
-            },
-            {
-                "font": "normal",
-                "text": "with intrinsic ampicillin resistance. Note multidrug resistance - ESBL producing"
-            }
-        ],
-        "organism": "Klebsiella quasipneumoniae (subspecies similipneumoniae)",
-        "bacterial_typing": {
-            "description": "subspecies characterisation and classification to assess isolate similarity",
-            "url": "https://pubmlst.org/multilocus-sequence-typing",
-            "typing": "MLST (Multilocus sequence typing)",
-            "sequence_type": "1535",
-            "profile": [
-                {
-                    "gene": "gapA",
-                    "allele": "18"
-                },
-                {
-                    "gene": "infB",
-                    "allele": "22"
-                },
-                {
-                    "gene": "mdh",
-                    "allele": "26"
-                },
-                {
-                    "gene": "pgi",
-                    "allele": "61"
-                },
-                {
-                    "gene": "phoE",
-                    "allele": "79"
-                },
-                {
-                    "gene": "rpoB",
-                    "allele": "13"
-                },
-                {
-                    "gene": "tonB",
-                    "allele": "51"
-                }       
-            ]
+    "summary": [
+        {
+            "font": "italic",
+            "text": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
         },
-        "antibiotic_resistance_determinants": [
-            {
-                "drug_class": "Penicillins (expected resistance due to blaSHV)",
-                "acquired_genotypes": "blaTEM-1B, blaOXA-1, blaCTX-M-15"
-            },
-            {
-                "drug_class": "  + beta-lactamase inhibitor",
-                "acquired_genotypes": "blaOXA-1"
-            },
-            {
-                "drug_class": "Cephalosporins (3rd gen)",
-                "acquired_genotypes": "blaCTX-M-15"
-            },
-            {
-                "drug_class": "  + beta-lactamase inhibitor",
-                "acquired_genotypes": "None found"
-            },
-            {
-                "drug_class": "Carbapenems",
-                "acquired_genotypes": "None found"
-            },
-            {
-                "drug_class": "  + beta-lactamase inhibitor",
-                "acquired_genotypes": "None found"
-            },
-            {
-                "drug_class": "Aminoglycosides",
-                "acquired_genotypes": "aac(6')-lb-cr, gyrA (p.Ser83Tyr)"
-            },
-            {
-                "drug_class": "Fosfomycin",
-                "acquired_genotypes": "fosA9"
-            },
-            {
-                "drug_class": "Phenicols",
-                "acquired_genotypes": "None"
-            },
-            {
-                "drug_class": "Polymixins",
-                "acquired_genotypes": "None found"
-            },
-            {
-                "drug_class": "Tigecycline",
-                "acquired_genotypes": "None found"
-            },
-            {
-                "drug_class": "Trimethoprim",
-                "acquired_genotypes": "dfrA14"
-            },
-            {
-                "drug_class": "  + sulfonamides",
-                "acquired_genotypes": "None found"
-            }
-        ],
-        "capsule_typing": {
-            "description": "Polysaccharide K and lipopolysaccharide O serotypes as predicted by KL and O genotype",
-            "url": "https://github.com/klebgenomics/Kaptive",
-            "results": [
-                {
-                    "type": "K type",
-                    "value": "K114"
-                },
-                {
-                    "type": "O type",
-                    "value": "O3/O3a"
-                }
-            ]
-        },
-        "virulence_determinants": {
-            "description": "Factors that may lead to increased ability to cause invasive disease",
-            "url": "https://github.com/klebgenomics/Kleborate",
-            "virulence_score": "1",
-            "acquired_siderophores": [
-                {
-                    "type": "Aerobactin ST",
-                    "value": "None"
-                },
-                {
-                    "type": "Salmochelin ST",
-                    "value": "None"
-                },
-                {
-                    "type": "Yersiniabactin ST",
-                    "value": "378-1LV"
-                }
-            ],
-            "other_factors": [
-                {
-                    "type": "Colibactin ST",
-                    "value": "None"
-                },
-                {
-                    "type": "Hypermucoidy",
-                    "value": "None"
-                }
-            ]
+        {
+            "font": "normal",
+            "text": "with intrinsic ampicillin resistance. Note multidrug resistance - ESBL producing. One virulence factor present (yersiniabactin) and three plasmid types (Col440I, IncFIB(K), IncFII(K))"
         }
+    ],
+    "organism": {
+        "species": "Klebsiella quasipneumoniae (subspecies similipneumoniae)",
+        "species_match": "strong"
     },
-    "public_health": {
-        "summary": [
-            {
-                "font": "italic",
-                "text": "Klebsiella quasipneumoniae (subspecies similipneumoniae)"
-            },
-            {
-                "font": "normal",
-                "text": " related to other isolates in the same geography. Clonal group XX is a globally disseminated multidrug resistant associated clone, infrequently carbapenem resistant."
-            }
-        ],
-        "bacterial_typing": {
-            "description": "subspecies characterisation and classification to assess isolate similarity",
-            "url": "https://pubmlst.org/multilocus-sequence-typing",
-            "typing": "MLST (Multilocus sequence typing)",
-            "sequence_type": "1535",
-            "profile": [
-                {
-                    "gene": "gapA",
-                    "allele": "18"
-                },
-                {
-                    "gene": "infB",
-                    "allele": "22"
-                },
-                {
-                    "gene": "mdh",
-                    "allele": "26"
-                },
-                {
-                    "gene": "pgi",
-                    "allele": "61"
-                },
-                {
-                    "gene": "phoE",
-                    "allele": "79"
-                },
-                {
-                    "gene": "rpoB",
-                    "allele": "13"
-                },
-                {
-                    "gene": "tonB",
-                    "allele": "51"
-                }       
-            ]
+    "kleborate": {
+        "vc": "Kleborate v2.3.2 analysis on 13/03/24"
+    },
+    "antibiotic_resistance_determinants": [
+        {
+            "drug_class": "Penicillins (expected resistance due to blaSHV)",
+            "acquired_genotypes": "blaTEM-1B, blaOXA-1, blaCTX-M-15"
         },
-        "lincodes": [
-            {
-                "label": "Phylogroup",
-                "value": "Kp4"
-            },
-            {
-                "label": "Sublineage",
-                "value": "SL1535"
-            },
-            {
-                "label": "Clonal group",
-                "value": "CG1535"
-            }
-        ],
-        "lin": "2_1_21_0_2_0_0_0_0_0",
-        "plasmid": {
-            "description": "Long read data is expected to allow reconstruction of most plasmid sequences. Short read data may yield partial plasmid sequences and prevent detection of whole plasmid sequence.",
-            "url": "https://cge.food.dtu.dk/services/PlasmidFinder/",
-            "type": "Col440I, IncFIB(K), IncFII(K)",
-            "contig_info": [
-                {
-                    "contig_deduced": "Contig no. 1",
-                    "contig_generated": "",
-                    "contig_length": "",
-                    "inc_typing": "IncFIB(K)",
-                    "amr_determinants": "OXA-48"
-                },
-                {
-                    "contig_deduced": "Contig no. 2",
-                    "contig_generated": "",
-                    "contig_length": "",
-                    "inc_typing": "Col440I",
-                    "amr_determinants": "NDM-1, BlaTEM-1"
-                }
-            ]
+        {
+            "drug_class": "  + beta-lactamase inhibitor",
+            "acquired_genotypes": "blaOXA-1"
         },
-        "outbreak": {
-            "description": "identifying isolates that are genetically similar and maybe part of a transmission chain",
-            "url": "https://bigsdb.pasteur.fr/klebsiella/cgmlst-lincodes/",
-            "lin": "2_1_21_0_2_0_0_0_0_0",
-            "isolates": [
-                {
-                    "id": "22874",
-                    "isolate": "NMI4821/11",
-                    "country": "Poland",
-                    "year": "2011",
-                    "lincode": "0_0_22_27_0_0_5_0_0_0"
-                },
-                {
-                    "id": "22876",
-                    "isolate": "NMI10734/11",
-                    "country": "Poland",
-                    "year": "2011",
-                    "lincode": "0_0_22_27_0_0_5_0_0_0"
-                },
-                {
-                    "id": "22877",
-                    "isolate": "NMI10898/11",
-                    "country": "Poland",
-                    "year": "2011",
-                    "lincode": "0_0_22_27_0_0_5_0_0_0"
-                },
-                {
-                    "id": "1495",
-                    "isolate": "MyNCGM268",
-                    "country": "Myanmar",
-                    "year": "2016",
-                    "lincode": "0_0_22_27_0_6_0_0_0_0"
-                },
-                {
-                    "id": "1492",
-                    "isolate": "M54",
-                    "country": "India",
-                    "year": "2020",
-                    "lincode": "0_0_22_27_0_7_0_0_0_0"
-                }
-            ]
+        {
+            "drug_class": "Cephalosporins (3rd gen)",
+            "acquired_genotypes": "blaCTX-M-15"
+        },
+        {
+            "drug_class": "  + beta-lactamase inhibitor",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "Carbapenems",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "  + beta-lactamase inhibitor",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "Aminoglycosides",
+            "acquired_genotypes": "aac(6')-lb-cr"
+        },
+        {
+            "drug_class": "Fluoroquinolones",
+            "acquired_genotypes": "aac(6')-Ib-cr, gyrA (p.Ser83Tyr)"
+        },
+        {
+            "drug_class": "Fosfomycin",
+            "acquired_genotypes": "fosA9"
+        },
+        {
+            "drug_class": "Phenicols",
+            "acquired_genotypes": "None"
+        },
+        {
+            "drug_class": "Polymixins",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "Tigecycline",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "Trimethoprim",
+            "acquired_genotypes": "dfrA14"
+        },
+        {
+            "drug_class": "  + sulfonamides",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "&dagger;Macrolides",
+            "acquired_genotypes": "None found"
+        },
+        {
+            "drug_class": "&dagger;Tetracycline",
+            "acquired_genotypes": "tet(A)"
         }
-
+    ],
+    "bacterial_typing": {
+        "description": "subspecies characterisation and classification to assess isolate similarity",
+        "typing": "MLST (Multilocus sequence typing)",
+        "sequence_type": "1535",
+        "profile": [
+            {
+                "gene": "gapA",
+                "allele": "18"
+            },
+            {
+                "gene": "infB",
+                "allele": "22"
+            },
+            {
+                "gene": "mdh",
+                "allele": "26"
+            },
+            {
+                "gene": "pgi",
+                "allele": "61"
+            },
+            {
+                "gene": "phoE",
+                "allele": "79"
+            },
+            {
+                "gene": "rpoB",
+                "allele": "13"
+            },
+            {
+                "gene": "tonB",
+                "allele": "51"
+            }       
+        ],
+        "phylogroup": "Kp4",
+        "sublineage": "SL1535",
+        "clonal_group": "CG1535",
+        "lin": "2_1_21_0_2_0_0_0_0_0"
+    },
+    "capsule_typing": {
+        "description": "Polysaccharide K and lipopolysaccharide O serotypes as predicted by KL and O genotype",
+        "url": "https://github.com/klebgenomics/Kaptive",
+        "results": [
+            {
+                "type": "K type",
+                "value": "K114"
+            },
+            {
+                "type": "O type",
+                "value": "O3/O3a"
+            }
+        ]
+    },
+    "virulence_determinants": {
+        "description": "Factors that may lead to increased ability to cause invasive disease",
+        "url": "https://github.com/klebgenomics/Kleborate",
+        "virulence_score": "1",
+        "acquired_siderophores": [
+            {
+                "type": "Aerobactin ST",
+                "value": "None"
+            },
+            {
+                "type": "Salmochelin ST",
+                "value": "None"
+            },
+            {
+                "type": "Yersiniabactin ST",
+                "value": "378-1LV"
+            }
+        ],
+        "other_factors": [
+            {
+                "type": "Colibactin ST",
+                "value": "None"
+            },
+            {
+                "type": "Hypermucoidy",
+                "value": "None"
+            }
+        ]
+    },
+    "plasmid": {
+        "description": "Long read data is expected to allow reconstruction of most plasmid sequences. Short read data may yield partial plasmid sequences and prevent detection of whole plasmid sequence.",
+        "url": "https://cge.food.dtu.dk/services/PlasmidFinder/",
+        "type": [
+            {
+                "value": "Col440I",
+                "locus_identity": "99.92%"
+            },
+            {
+                "value": "IncFIB(K)",
+                "locus_identity": "99.92%"
+            },
+            {
+                "value": "IncFII(K)",
+                "locus_identity": "99.92%"
+            }
+        ]
+    },
+    "outbreak": {
+        "description": "identifying isolates that are genetically similar and maybe part of a transmission chain",
+        "url": "https://bigsdb.pasteur.fr/klebsiella/cgmlst-lincodes/",
+        "lin": "2_1_21_0_2_0_0_0_0_0",
+        "isolates": [
+            {
+                "id": "22874",
+                "isolate": "NMI4821/11",
+                "country": "Poland",
+                "year": "2011",
+                "lincode": "0_0_22_27_0_0_5_0_0_0"
+            },
+            {
+                "id": "22876",
+                "isolate": "NMI10734/11",
+                "country": "Poland",
+                "year": "2011",
+                "lincode": "0_0_22_27_0_0_5_0_0_0"
+            },
+            {
+                "id": "22877",
+                "isolate": "NMI10898/11",
+                "country": "Poland",
+                "year": "2011",
+                "lincode": "0_0_22_27_0_0_5_0_0_0"
+            },
+            {
+                "id": "1495",
+                "isolate": "MyNCGM268",
+                "country": "Myanmar",
+                "year": "2016",
+                "lincode": "0_0_22_27_0_6_0_0_0_0"
+            },
+            {
+                "id": "1492",
+                "isolate": "M54",
+                "country": "India",
+                "year": "2020",
+                "lincode": "0_0_22_27_0_7_0_0_0_0"
+            }
+        ]
+    },
+    "quality_control": {
+        "criteria_by_institution": "KlebNet",
+        "genome_quality": "acceptable",
+        "species_match": "acceptable identity",
+        "genome_size": "5,877,119",
+        "contigs": "123",
+        "gc_content": "57.00"
     }
 }
